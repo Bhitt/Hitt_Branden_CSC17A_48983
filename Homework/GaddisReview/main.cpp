@@ -17,6 +17,7 @@ using namespace std;
 
 //Function Prototypes
 float celsius(float);
+int binarySearch(const string [], int, string);
 //Execution Begins Here
 int main(int argc, char** argv) {
     //General Menu Format
@@ -125,23 +126,91 @@ int main(int argc, char** argv) {
         case '6':{
             cout<<"*****************************"<<endl;
             //declare variables
-            //const int SIZE=20;
-            //int array[SIZE]={};
-            //fill array
+            int thsMany=0;
             string name;
+            int lowest,highest,total=0,avg=0,number;
+            //fill array
             cout<<"What is the file name?"<<endl;
+            cout<<"(taco.txt can be used if you have no prepared file)"<<endl;
             cin>>name;
-            //ofstream outFile;
+            ifstream inFile;
+            //int val1,val2,val3,val4,val5; used for testing
+            string test;
             //ifstream inFile;
-            //inFile.open("name.txt");
+            inFile.open(name.c_str());
+            //find size of array
+            while(inFile>>number){
+                thsMany++;
+            }
+            inFile.close();
+            inFile.open(name.c_str());
+            const int PIZE=thsMany;
+            int array[PIZE]={};
+            if(inFile){
+                for(int i=0;i<PIZE;i++){
+                    inFile>>array[i];
+                    
+                }   
+            }else{
+                //display error message
+                cout<<"Error opening the File"<<endl;
+            }
+            //see if the array was filled
+            lowest=array[0];
+            highest=array[0];
+            for(int i=0;i<PIZE;i++){
+                if(array[i]<lowest){
+                    lowest=array[i];
+                }
+                if(array[i]>highest){
+                    highest=array[i];
+                }
+                total+=array[i];
+            }
+            avg=total/PIZE;
+            //output the results
+            cout<<"The lowest number in the array: "<<lowest<<endl;
+            cout<<"The highest number in the array: "<<highest<<endl;
+            cout<<"The total of the numbers: "<<total<<endl;
+            cout<<"The average of the numbers: "<<avg<<endl;
             //close the file
-            //outFile.close();
+            inFile.close();
             cout<<"*****************************"<<endl;
                 break;
             }
         case '7':{
             cout<<"*****************************"<<endl;
-            
+            //
+            const int NUM_NAMES = 20;
+            // Array with employee IDs sorted in ascending order.
+            string names[NUM_NAMES] = {"Collins, Bill", "Smith, Bart", "Allen, Jim",
+            "Griffin, Jim", "Stamey, Marty", "Rose, Geri",
+            "Taylor, Terri", "Johnson, Jill",
+            "Allison, Jeff", "Looney, Joe", "Wolfe, Bill",
+            "James, Jean", "Weaver, Jim", "Pore, Bob",
+            "Rutherford, Greg", "Javens, Renee",
+            "Harrison, Rose", "Setzer, Cathy",
+            "Pike, Gordon", "Holland, Beth" };
+            int results; // To hold the search results
+            string empID; // To hold an employee ID
+
+            // Get an employee ID to search for.
+            cout << "Enter the employee name you wish to search for: ";
+            cin >> empID;
+
+            // Search for the ID.
+            results = binarySearch(names, NUM_NAMES, empID);
+
+            // If results contains -1 the ID was not found.
+            if (results == -1)
+            cout << "That number does not exist in the array.\n";
+            else
+            {
+            // Otherwise results contains the subscript of
+            // the specified employee ID in the array.
+            cout << "That employee is found at element " << results;
+            cout << " in the array.\n";
+            }
             cout<<"*****************************"<<endl;
                 break;
             }
@@ -159,3 +228,27 @@ float celsius(float a){
     float end=5.0/9*(a-32);
     return end;
 }
+//binary search
+int binarySearch(const string array[], int size, string value)
+ {
+ int first = 0, // First array element
+ last = size - 1, // Last array element
+ middle, // Midpoint of search
+ position = -1; // Position of search value
+ bool found = false; // Flag
+
+ while (!found && first <= last)
+ {
+ middle = (first + last) / 2; // Calculate midpoint
+ if (array[middle] == value) // If value is found at mid
+ {
+ found = true;
+ position = middle;
+ }
+ else if (array[middle] > value) // If value is in lower half
+ last = middle - 1;
+ else
+ first = middle + 1; // If value is in upper half
+ }
+ return position;
+ }
