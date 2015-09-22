@@ -21,7 +21,7 @@ int *modeFil(int [],int);//find mode
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
-    const int SIZE=99;
+    const int SIZE=19;
     int array[SIZE]={};//declare original array
     int copy[SIZE]={};//declare copy of array
     //fill the array
@@ -42,9 +42,10 @@ int main(int argc, char** argv) {
     cout<<endl;
     cout<<"The Number of Modes is: "<<mode[0]<<endl;
     cout<<"The Frequency of the Mode(s) is: "<<mode[1]<<endl;
-    
-    for(int i=2;i<(mode[0]+2);i++){
-        cout<<"Item "<<i-1<<": "<<mode[i]<<endl;
+    if(mode[1]>1){
+        for(int i=2;i<(mode[0]+2);i++){
+            cout<<"Item "<<i-1<<": "<<mode[i]<<endl;
+        }    
     }
     //De-allocate memory
     delete []mode;
@@ -120,5 +121,6 @@ int *modeFil(int a[],int n){
         }
         return b;
     }
+    return b;
     
 }
