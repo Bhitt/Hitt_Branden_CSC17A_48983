@@ -147,14 +147,14 @@ float mean(int a[],int n){
     }
     //divide by number of items
     avg/=n;
-    return n;
+    return avg;
 }
 //median
 float median(int a[],int n){
     //declare variables
     float medi=0;
     int temp;
-    temp=n/2;
+    temp=(n+1)/2;
     medi=a[temp];
     return medi;
 }
