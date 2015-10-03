@@ -18,12 +18,15 @@ void filAray(int [],int);//fill
 void markSrt(int [], int);//sort
 void prntAry(int [],int,int);//print
 int *modeFil(int [],int);//find mode
+float mean(int [],int);//find the mean
+float median(int [],int);//find the median
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
     const int SIZE=19;
     int array[SIZE]={};//declare original array
     int copy[SIZE]={};//declare copy of array
+    float meanNum=0,medNum=0;
     //fill the array
     filAray(array,SIZE);
     //print the original array
@@ -36,10 +39,20 @@ int main(int argc, char** argv) {
     }
     //sort the array
     markSrt(copy,SIZE);
+    cout<<endl;
+    cout<<"Your sorted array:"<<endl;
+    prntAry(copy,SIZE,10);
+    cout<<endl;
+    //find the mean
+    meanNum=mean(copy,SIZE);
+    //find the median
+    medNum=median(copy,SIZE);
     //find the mode and put in a dynamic array
     int *mode=modeFil(copy,SIZE);
     //Output mode
     cout<<endl;
+    cout<<"The Mean is: "<<meanNum<<endl;
+    cout<<"The Median is: "<<medNum<<endl;
     cout<<"The Number of Modes is: "<<mode[0]<<endl;
     cout<<"The Frequency of the Mode(s) is: "<<mode[1]<<endl;
     if(mode[1]>1){
@@ -123,4 +136,25 @@ int *modeFil(int a[],int n){
     }
     return b;
     
+}
+//mean
+float mean(int a[],int n){
+    //declare variables
+    float avg=0;
+    //add all the numbers
+    for(int i=0;i<n;i++){
+        avg+=a[i];
+    }
+    //divide by number of items
+    avg/=n;
+    return n;
+}
+//median
+float median(int a[],int n){
+    //declare variables
+    float medi=0;
+    int temp;
+    temp=n/2;
+    medi=a[temp];
+    return medi;
 }
