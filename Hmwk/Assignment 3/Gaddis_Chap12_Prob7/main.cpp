@@ -2,7 +2,8 @@
  * File:   main.cpp
  * Author: Branden Hitt
  * Created on March 25, 2015, 10:10 AM
- *      Purpose: Astrology Program (find user's sign and horoscope)
+ *      Purpose: reads in a file, sets letters to lowercase, then the first 
+ *                  word is made uppercase
  */
 
 //System Libraries
