@@ -7,6 +7,7 @@
 
 //System Libraries
 #include <iostream>//I/O standard
+#include <iomanip>//format
 using namespace std;
 
 //User Libraries
@@ -14,8 +15,8 @@ using namespace std;
 //Global Constants
 
 //Function Prototypes
-void filCorp(CorpData);
-void display(CorpData);
+void filCorp(CorpData &);
+void display(CorpData &);
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
@@ -33,6 +34,8 @@ int main(int argc, char** argv) {
     cout<<"Company Division 4 Input"<<endl;
     filCorp(com4);
     //Output 
+    cout<<"***********************"<<endl;
+    cout<<endl;
     display(com1);
     display(com2);
     display(com3);
@@ -41,26 +44,27 @@ int main(int argc, char** argv) {
     return 0;
 }
 //fill corpdata
-void filCorp(CorpData p){
+void filCorp(CorpData &p){
     cout<<"What is the division name?:"<<endl;
-    cin>>p->name;
+    cin>>p.name;
     cout<<"What were the sales for the first quarter?:"<<endl;
-    cin>>p->qt1;
+    cin>>p.qt1;
     cout<<"What were the sales for the second quarter?:"<<endl;
-    cin>>p->qt2;
+    cin>>p.qt2;
     cout<<"What were the sales for the third quarter?:"<<endl;
-    cin>>p->qt3;
+    cin>>p.qt3;
     cout<<"What were the sales for the fourth quarter?:"<<endl;
-    cin>>p->qt4;
-    p->annual=(p->qt1+p->qt2+p->qt3+p->qt4);
-    p->average=(p->annual)/4;
+    cin>>p.qt4;
+    p.annual=(p.qt1+p.qt2+p.qt3+p.qt4);
+    p.average=(p.annual)/4;
     cin.ignore();
     cout<<endl;
 }
 //display the structure
-void display(CorpData p){
-    cout<<"Division: "<<p->name<<endl;
-    cout<<"Annual sales: $"<<p->annual<<endl;
-    cout<<"Average Quarterly Sales: $"<<p->average<<endl;
+void display(CorpData &p){
+    cout<<fixed<<setprecision(2)<<showpoint;
+    cout<<"Division: "<<p.name<<endl;
+    cout<<"Annual sales: $"<<p.annual<<endl;
+    cout<<"Average Quarterly Sales: $"<<p.average<<endl;
     cout<<endl;
 }
