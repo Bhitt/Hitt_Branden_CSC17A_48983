@@ -47,14 +47,26 @@ int main(int argc, char** argv) {
 void filCorp(CorpData &p){
     cout<<"What is the division name?:"<<endl;
     cin>>p.name;
-    cout<<"What were the sales for the first quarter?:"<<endl;
-    cin>>p.qt1;
-    cout<<"What were the sales for the second quarter?:"<<endl;
-    cin>>p.qt2;
-    cout<<"What were the sales for the third quarter?:"<<endl;
-    cin>>p.qt3;
-    cout<<"What were the sales for the fourth quarter?:"<<endl;
-    cin>>p.qt4;
+    do{
+        cout<<"What were the sales for the first quarter?:"<<endl;
+        cin>>p.qt1;
+        if(p.qt1<0)cout<<"Invalid Input"<<endl;
+    }while(p.qt1<0);
+    do{
+        cout<<"What were the sales for the second quarter?:"<<endl;
+        cin>>p.qt2;
+        if(p.qt2<0)cout<<"Invalid Input"<<endl;
+    }while(p.qt2<0);
+    do{
+        cout<<"What were the sales for the third quarter?:"<<endl;
+        cin>>p.qt3;
+        if(p.qt3<0)cout<<"Invalid Input"<<endl;
+    }while(p.qt3<0);
+    do{
+        cout<<"What were the sales for the fourth quarter?:"<<endl;
+        cin>>p.qt4;
+        if(p.qt4<0)cout<<"Invalid Input"<<endl;
+    }while(p.qt4<0);
     p.annual=(p.qt1+p.qt2+p.qt3+p.qt4);
     p.average=(p.annual)/4;
     cin.ignore();
