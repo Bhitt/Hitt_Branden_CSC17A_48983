@@ -16,13 +16,13 @@ using namespace std;
 //Function Prototypes
 void filData(SpkrBru *,int);
 void pick(SpkrBru *);
-void fillEle(SpkrBru );
+void fillEle(SpkrBru *,int);
 void display(SpkrBru *,int);
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
     char cho='m',repeat='n';
-    const int SIZE=2;
+    const int SIZE=10;
     bool skip=false;
     SpkrBru array[SIZE]={};
     //ask for menu choice
@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
         cout<<"Type 3 to display all of the data"<<endl;
         cout<<"Type z to exit"<<endl;
         cin>>cho;
+        cout<<"************************"<<endl;
         //display menu
         switch(cho){
             case'1':{
@@ -53,13 +54,19 @@ int main(int argc, char** argv) {
             case'Z':{
                 //exit queue
                 skip=true;
-                repeat='Y';
+                repeat='n';
+                break;
+            }
+            default:{
+                cout<<"Invalid Input"<<endl;
             }
         }
         if(skip==false){
-            cout<<"Would you like to return to the menu?"<<endl;
+            cout<<"************************"<<endl;
+            cout<<"Would you like to return to the main menu?"<<endl;
             cout<<"Enter Y for yes or N for no:"<<endl;
             cin>>repeat;
+            cout<<"************************"<<endl;
         }
     }while(repeat=='Y'||repeat=='y');
     return 0;
@@ -82,25 +89,26 @@ void filData(SpkrBru *p,int s){
         cin.ignore();
         cout<<endl;
     }
+    cout<<"************************"<<endl;
 }
 //fill element
-void fillEle(SpkrBru p){
+void fillEle(SpkrBru *p,int i){
     cout<<"What is the speaker's name?:"<<endl;
-    cin>>p.name;
+    cin>>p[i].name;
     cout<<"What is their telephone number?:"<<endl;
-    cin>>p.number;
+    cin>>p[i].number;
     cout<<"What is their speaking topic?:"<<endl;
-    cin>>p.topic;
+    cin>>p[i].topic;
     do{
         cout<<"What is their fee required?:"<<endl;
-        cin>>p.fee;
-        if(p.fee<0)cout<<"Invalid input"<<endl;
-    }while(p.fee<0);
+        cin>>p[i].fee;
+        if(p[i].fee<0)cout<<"Invalid input"<<endl;
+    }while(p[i].fee<0);
     cout<<endl;
 }
 //pick element to change
 void pick(SpkrBru *a){
-    char ele='m',repeat='n';
+    char ele='m',re='n';
     bool skip=false;
     do{
         cout<<"Type A to change Speaker 1:"<<endl;
@@ -118,78 +126,82 @@ void pick(SpkrBru *a){
         switch(ele){
             case'A':
             case'a':{
-                fillEle(a[0]);
+                fillEle(a,0);
                 break;
             }
             case'B':
             case'b':{
-                fillEle(a[1]);
+                fillEle(a,1);
                 break;
             }
             case'C':
             case'c':{
-                fillEle(a[2]);
+                fillEle(a,2);
                 break;
             }
             case'D':
             case'd':{
-                fillEle(a[3]);
+                fillEle(a,3);
                 break;
             }
             case'E':
             case'e':{
-                fillEle(a[4]);
+                fillEle(a,4);
                 break;
             }
             case'F':
             case'f':{
-                fillEle(a[5]);
+                fillEle(a,5);
                 break;
             }
             case'G':
             case'g':{
-                fillEle(a[6]);
+                fillEle(a,6);
                 break;
             }
             case'H':
             case'h':{
-                fillEle(a[7]);
+                fillEle(a,7);
                 break;
             }
             case'I':
             case'i':{
-                fillEle(a[8]);
+                fillEle(a,8);
                 break;
             }
             case'J':
             case'j':{
-                fillEle(a[9]);
+                fillEle(a,9);
                 break;
             }
             case'Z':
             case'z':{
                 skip=true;
-                repeat='Y';
+                re='n';
+                break;
             }
             default:{
                 cout<<"Incorrect menu choice"<<endl;
             }
         }
+        cout<<"************************"<<endl;
         if(!skip){
-            cout<<"Would you like to return to the menu?"<<endl;
+            cout<<"************************"<<endl;
+            cout<<"Would you like to edit another element?"<<endl;
             cout<<"Enter Y for yes or N for no:"<<endl;
-            cin>>repeat;
+            cin>>re;
+            cout<<"************************"<<endl;
         }
-    }while(repeat=='Y'||repeat=='y');
+    }while(re=='Y'||re=='y');
 }
 //display the array of structures
 void display(SpkrBru *p,int s){
     for(int i=0;i<s;i++){
         cout<<"SPEAKER "<<i+1<<endl;
-        cout<<"NAME: "<<p[i].name<<endl;
+        cout<<"NAME     : "<<p[i].name<<endl;
         cout<<"TELEPHONE: "<<p[i].number<<endl;
-        cout<<"TOPIC: "<<p[i].topic<<endl;
-        cout<<"FEE: $"<<p[i].fee<<endl;
+        cout<<"TOPIC    : "<<p[i].topic<<endl;
+        cout<<"FEE      : $"<<p[i].fee<<endl;
         cout<<endl;
     }
 }
