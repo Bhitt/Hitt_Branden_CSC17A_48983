@@ -9,6 +9,7 @@
 //System Libraries
 #include <iostream>//I/O standard
 #include <string>// string usage
+#include <cstring>// string length and string cat
 #include <fstream>// file I/O
 using namespace std;
 
@@ -23,19 +24,27 @@ void prntTbl(int [][9], int, int &);//print sudoku table
 void entNum(int [][9]);//enter a number into table
 short assign(char);//assign a number to a char input
 bool check(int [][9],int [][9],int,int &);//check table for win or errors
+void gEdit(char [],char [],int);//greetings edit
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
-    const int DIMEN=9;
-    char prompt1='0';
-    int errors=0;
-    bool win=false;
-    short diff=0;
+    const int DIMEN=9;//table dimensions
+    const int GLENGTH=25;//greeting array length
+    char prompt1='0';//prompt for new player
+    int errors=0;//counter for errors in puzzle
+    bool win=false;//win condition to exit loop
+    short diff=0;//difficulty level
+    char greet[GLENGTH]={'w','E','L','C','O','M','E',' ','T','O',' '};//greeting message
+    char ing[DIMEN]={'S','U','D','O','K','U'};
     //create 2D array for table
     int table[DIMEN][DIMEN]={};
     int tableK[DIMEN][DIMEN]={};
-    //Greet the user and 
-    cout<<"WELCOME TO SUDOKU"<<endl;
+    //Greet the user and pull data
+    gEdit(greet,ing,GLENGTH);//edit the greeting
+    for(int i=0;i<GLENGTH;i++){
+        cout<<greet[i];
+    }
+    cout<<endl;
     cout<<"*******************"<<endl;
     cout<<endl;
     cout<<"Are you a returning player?"<<endl;
@@ -47,7 +56,7 @@ int main(int argc, char** argv) {
     filTbl(table,DIMEN,diff);
     //create key
     filKey(tableK,DIMEN,diff);
-    //sample tables
+    //sample tables for format
 //    int table[DIMEN][DIMEN]={{0,0,0,2,6,0,7,0,1},
 //                             {6,8,0,0,7,0,0,9,0},
 //                             {1,9,0,0,0,4,5,0,0},
@@ -152,6 +161,7 @@ void entNum(int a[][9]){
     do{
         cout<<"What is the letter of the row (ex: a)"<<endl;
         cin>>rowIn;
+        if(!(isalpha(rowIn)))cout<<"Input needs to be a letter from a-i."<<endl;
         row=assign(rowIn);
         if(!(row>=0&&row<=9))cout<<"Invalid Entry"<<endl;
     }while(row<0||row>9);
@@ -159,6 +169,7 @@ void entNum(int a[][9]){
     do{
         cout<<"What is the letter of the column (ex: A)"<<endl;
         cin>>colIn;
+        if(!(isalpha(colIn)))cout<<"Input needs to be a letter from A-I."<<endl;
         col=assign(colIn);
         if(!(col>=0&&col<=9))cout<<"Invalid Entry"<<endl;
     }while(col<0||col>9);
@@ -196,4 +207,21 @@ bool check(int a[][9],int b[][9],int rC,int &e){
     e=ttlE;
     if(ttlE==0)return true;
     else return false;
+}
+//greeting's editor
+void gEdit(char a[],char b[],int c){
+    //put both strings together
+    if( c >=(strlen(a)+strlen(b)+1)){
+        strcat(a,b);
+    }else{
+        cout<<"Greetings array is not large enough for both strings."<<endl;
+    }
+    //set the first letter to uppercase
+    if(islower(a[0])){
+        a[0]=toupper(a[0]);
+    }else if(isupper(a[0])){
+        //do nothing
+    }else{
+        cout<<"error"<<endl;
+    }
 }
