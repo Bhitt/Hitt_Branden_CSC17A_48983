@@ -21,10 +21,13 @@ using namespace std;
 void filTbl(int [][9], int, short);//fill the table with the correct puzzle
 void filKey(int [][9], int, short);//fill the key with the correct key
 void prntTbl(int [][9], int, int &);//print sudoku table
-void entNum(int [][9]);//enter a number into table
+void entNum(int [][9],int **,int);//enter a number into table
 short assign(char);//assign a number to a char input
 bool check(int [][9],int [][9],int,int &);//check table for win or errors
 void gEdit(char [],char [],int);//greetings edit
+int **findGiv(int [][9], int &);//find the givens of the current puzzle
+bool isGiven(int **,int, int, int);//prevent editing givens
+void destGiv(int **,int);//de-allocate the array for givens
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
@@ -34,6 +37,7 @@ int main(int argc, char** argv) {
     int errors=0;//counter for errors in puzzle
     bool win=false;//win condition to exit loop
     short diff=0;//difficulty level
+    int count=0;//counter for givens
     char greet[GLENGTH]={'w','E','L','C','O','M','E',' ','T','O',' '};//greeting message
     char ing[DIMEN]={'S','U','D','O','K','U'};
     //create 2D array for table
@@ -78,14 +82,25 @@ int main(int argc, char** argv) {
 //                             {2,4,8,9,5,7,1,3,6},
 //                             {7,6,3,4,1,8,2,5,9}
 //                                };
+    //find the givens
+    int **arrayG=findGiv(table,count);
     //Output 
     prntTbl(table,DIMEN,errors);
     //user enters in number
-    entNum(table);
+    entNum(table,arrayG,count);
     //check for errors or win
     win=check(table,tableK,DIMEN,errors);
     //output
     prntTbl(table,DIMEN,errors);
+    //output array of givens <-- testing purposes
+//    for(int x=0;x<count;x++){
+//        for(int y=0;y<2;y++){
+//            cout<<arrayG[x][y];
+//            if((y+1)%2==0)cout<<endl;
+//        }
+//    }
+    //de-allocate the givens array
+    destGiv(arrayG,2);
     //Exit stage right
     return 0;
 }
@@ -154,25 +169,33 @@ void prntTbl(int a[][9], int rC,int &err){
     cout<<"Total Errors: ("<<err<<")"<<endl;
 }
 //enter a number into a table
-void entNum(int a[][9]){
+void entNum(int a[][9],int **b,int count){
     char rowIn='0',colIn='0';
     short row=10,col=10,guess=10;
-    //input row
+    bool gChk=false;
     do{
-        cout<<"What is the letter of the row (ex: a)"<<endl;
-        cin>>rowIn;
-        if(!(isalpha(rowIn)))cout<<"Input needs to be a letter from a-i."<<endl;
-        row=assign(rowIn);
-        if(!(row>=0&&row<=9))cout<<"Invalid Entry"<<endl;
-    }while(row<0||row>9);
-    //input col
-    do{
-        cout<<"What is the letter of the column (ex: A)"<<endl;
-        cin>>colIn;
-        if(!(isalpha(colIn)))cout<<"Input needs to be a letter from A-I."<<endl;
-        col=assign(colIn);
-        if(!(col>=0&&col<=9))cout<<"Invalid Entry"<<endl;
-    }while(col<0||col>9);
+        //input row
+        do{
+            cout<<"What is the letter of the row (ex: a)"<<endl;
+            cin>>rowIn;
+            if(!(isalpha(rowIn)))cout<<"Input needs to be a letter from a-i."<<endl;
+            row=assign(rowIn);
+            if(!(row>=0&&row<=9))cout<<"Invalid Entry"<<endl;
+        }while(row<0||row>9);
+        //input col
+        do{
+            cout<<"What is the letter of the column (ex: A)"<<endl;
+            cin>>colIn;
+            if(!(isalpha(colIn)))cout<<"Input needs to be a letter from A-I."<<endl;
+            col=assign(colIn);
+            if(!(col>=0&&col<=9))cout<<"Invalid Entry"<<endl;
+        }while(col<0||col>9);
+        gChk=isGiven(b,count,row,col);
+        if(gChk==true){
+            cout<<"Cannot edit a Given"<<endl;
+            cout<<endl;
+        }
+    }while(gChk==true);
     //enter in the number to table
     do{
         cout<<"What is the number you wish to input (1-9)"<<endl;
@@ -196,7 +219,8 @@ short assign(char c){
 }
 //check the table for win or errors
 bool check(int a[][9],int b[][9],int rC,int &e){
-    int ttlE=0;
+    int ttlE=0;//total errors
+    //loop to find errors
     for(int x=0;x<rC;x++){
         for(int y=0;y<rC;y++){
             if(a[x][y]!=b[x][y]){
@@ -224,4 +248,61 @@ void gEdit(char a[],char b[],int c){
     }else{
         cout<<"error"<<endl;
     }
+}
+//find the givens of the current puzzle
+int **findGiv(int p[][9],int &row){
+    //declare variables
+    int fill=0,col=2;
+    //find how many givens
+    for(int x=0;x<9;x++){
+        for(int y=0;y<9;y++){
+            if(p[x][y]!=0)row++;//rows = number of givens
+        }
+    }
+    //cout<<"count : "<<row; <-- test purposes
+    if(row>0){
+        //create the number of rows
+        int **array=new int*[row];
+        //loop and create the columns
+        for(int i=0;i<row;i++){
+            array[i]=new int[col];
+        }
+        //fill the array
+        for(int x=0;x<9;x++){
+            for(int y=0;y<9;y++){
+               if(p[x][y]!=0){
+                   //cout<<"x: "<<x<<" y: "<<y<<endl; <-- test purposes
+                   array[fill][0]=x;
+                   array[fill][1]=y;
+                   fill++;
+                   //cout<<"fill: "<<fill<<endl; <-- test purposes
+               } 
+            }
+        }
+        //return the array
+        return array;
+    }else{
+        //do nothing - no givens
+        cout<<"No Givens in puzzle"<<endl;
+    }
+}
+//check to make sure player isn't editing givens
+bool isGiven(int **b, int count, int row, int col){
+    //declare variables
+    bool stop=false;
+    //loop to check givens
+    for(int x=0;x<count;x++){
+        if((row==b[x][0])&&(col==b[x][1])) stop=true;
+    }
+    //return the bool
+    return stop;
+}
+//de-allocate the array for givens
+void destGiv(int **a,int c){
+    //Loop and destroy the columns
+    for(int i=0;i<c;i++){
+        delete [] a[i];
+    }
+    //Destroy the rows
+    delete []a;
 }
