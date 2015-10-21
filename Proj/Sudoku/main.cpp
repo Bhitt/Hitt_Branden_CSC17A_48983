@@ -54,7 +54,8 @@ int main(int argc, char** argv) {
     cout<<"Are you a returning player?"<<endl;
     cout<<"Enter in Y for yes or N for new player now:"<<endl;
     cin>>prompt1;
-    cout<<"What difficulty..."<<endl;
+    cout<<"What difficulty would you like?"<<endl;
+    cout<<"1) Easy  2) Medium  3)Hard"<<endl;
     cin>>diff;
     //Create Table to be solved
     filTbl(table,DIMEN,diff);
@@ -84,21 +85,21 @@ int main(int argc, char** argv) {
 //                                };
     //find the givens
     int **arrayG=findGiv(table,count);
-    //Output 
-    prntTbl(table,DIMEN,errors);
-    //user enters in number
-    entNum(table,arrayG,count);
-    //check for errors or win
-    win=check(table,tableK,DIMEN,errors);
-    //output
-    prntTbl(table,DIMEN,errors);
-    //output array of givens <-- testing purposes
-//    for(int x=0;x<count;x++){
-//        for(int y=0;y<2;y++){
-//            cout<<arrayG[x][y];
-//            if((y+1)%2==0)cout<<endl;
-//        }
-//    }
+    //Output
+    do{
+        prntTbl(table,DIMEN,errors);
+        //user enters in number
+        entNum(table,arrayG,count);
+        //check for errors or win
+        win=check(table,tableK,DIMEN,errors);
+        //output array of givens <-- testing purposes
+    //    for(int x=0;x<count;x++){
+    //        for(int y=0;y<2;y++){
+    //            cout<<arrayG[x][y];
+    //            if((y+1)%2==0)cout<<endl;
+    //        }
+    //    }
+    }while(win==false);
     //de-allocate the givens array
     destGiv(arrayG,2);
     //Exit stage right
@@ -140,12 +141,12 @@ void filKey(int a[][9], int rC, short fNum){
 }
 //print the table
 void prntTbl(int a[][9], int rC,int &err){
-    cout<<"        A B C   D E F   G H I"<<endl;
+    cout<<"        A B C   D E F   G H I"<<endl;//format 
     cout<<endl;
     //cout<<"    _____________________"<<endl;
  for (int x=0;x<rC;x++){
     cout<<"    ";
-    for (int y=0;y<rC;y++){
+    for (int y=0;y<rC;y++){//loop for format and display table
         if(y==0){
             if(x==0)cout<<"a   ";
             if(x==1)cout<<"b   ";
@@ -219,7 +220,8 @@ short assign(char c){
 }
 //check the table for win or errors
 bool check(int a[][9],int b[][9],int rC,int &e){
-    int ttlE=0;//total errors
+    int ttlE=0;//total errors counter
+    int winC=0;//win counter
     //loop to find errors
     for(int x=0;x<rC;x++){
         for(int y=0;y<rC;y++){
@@ -229,8 +231,16 @@ bool check(int a[][9],int b[][9],int rC,int &e){
         }
     }
     e=ttlE;
-    if(ttlE==0)return true;
-    else return false;
+    if(ttlE==0){//if no errors
+        //loop and check for win
+        for(int x=0;x<rC;x++){
+            for(int y=0;y<rC;y++){
+                if(a[x][y]==b[x][y]) winC++;
+            }
+        }
+        if(winC==81)return true;
+    } 
+    return false;
 }
 //greeting's editor
 void gEdit(char a[],char b[],int c){
