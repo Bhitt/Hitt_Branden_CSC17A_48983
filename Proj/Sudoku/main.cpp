@@ -43,6 +43,8 @@ int main(int argc, char** argv) {
     //create 2D array for table
     int table[DIMEN][DIMEN]={};
     int tableK[DIMEN][DIMEN]={};
+    //create array of structures
+    PlyrDta hiScore[5];
     //Greet the user and pull data
     gEdit(greet,ing,GLENGTH);//edit the greeting
     for(int i=0;i<GLENGTH;i++){
@@ -105,7 +107,7 @@ int main(int argc, char** argv) {
     //Exit stage right
     return 0;
 }
-//fill the table
+//*******fill the table*******//
 void filTbl(int a[][9],int rC, short fNum){
     //declare variables
     ifstream fin;
@@ -122,10 +124,10 @@ void filTbl(int a[][9],int rC, short fNum){
     //close file
     fin.close();
 }
-//fill the key
+//*******fill the key*******//
 void filKey(int a[][9], int rC, short fNum){
     //declare variables
-    ifstream fin;
+    ifstream fin;//file input
     //open file
     if(fNum==1) fin.open("key1.txt");
     else if(fNum==2) fin.open("key2.txt");
@@ -139,7 +141,7 @@ void filKey(int a[][9], int rC, short fNum){
     //close file
     fin.close();
 }
-//print the table
+//*******print the table*******//
 void prntTbl(int a[][9], int rC,int &err){
     cout<<"        A B C   D E F   G H I"<<endl;//format 
     cout<<endl;
@@ -169,7 +171,7 @@ void prntTbl(int a[][9], int rC,int &err){
  }
     cout<<"Total Errors: ("<<err<<")"<<endl;
 }
-//enter a number into a table
+//*******enter a number into a table*******//
 void entNum(int a[][9],int **b,int count){
     char rowIn='0',colIn='0';
     short row=10,col=10,guess=10;
@@ -205,7 +207,7 @@ void entNum(int a[][9],int **b,int count){
     }while(guess<1||guess>9);
     a[row][col]=guess;
 }
-//assign a number to a char
+//*******assign a number to a char*******//
 short assign(char c){
     if(c=='A'||c=='a')return 0;
     else if(c=='B'||c=='b')return 1;
@@ -218,7 +220,7 @@ short assign(char c){
     else if(c=='I'||c=='i')return 8;
     else return 10;//for incorrect input
 }
-//check the table for win or errors
+//*******check the table for win or errors*******//
 bool check(int a[][9],int b[][9],int rC,int &e){
     int ttlE=0;//total errors counter
     int winC=0;//win counter
@@ -242,7 +244,7 @@ bool check(int a[][9],int b[][9],int rC,int &e){
     } 
     return false;
 }
-//greeting's editor
+//*******greeting's editor*******//
 void gEdit(char a[],char b[],int c){
     //put both strings together
     if( c >=(strlen(a)+strlen(b)+1)){
@@ -259,7 +261,7 @@ void gEdit(char a[],char b[],int c){
         cout<<"error"<<endl;
     }
 }
-//find the givens of the current puzzle
+//*******find the givens of the current puzzle*******//
 int **findGiv(int p[][9],int &row){
     //declare variables
     int fill=0,col=2;
@@ -296,7 +298,7 @@ int **findGiv(int p[][9],int &row){
         cout<<"No Givens in puzzle"<<endl;
     }
 }
-//check to make sure player isn't editing givens
+//*******check to make sure player isn't editing givens*******//
 bool isGiven(int **b, int count, int row, int col){
     //declare variables
     bool stop=false;
@@ -304,10 +306,10 @@ bool isGiven(int **b, int count, int row, int col){
     for(int x=0;x<count;x++){
         if((row==b[x][0])&&(col==b[x][1])) stop=true;
     }
-    //return the bool
+    //return the boolean
     return stop;
 }
-//de-allocate the array for givens
+//*******de-allocate the array for givens*******//
 void destGiv(int **a,int c){
     //Loop and destroy the columns
     for(int i=0;i<c;i++){
