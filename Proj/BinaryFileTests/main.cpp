@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     //input from file
     PlyrDta test;
     inBin(test);
-    display(test);
+    //display(test);
     //Exit stage right
     return 0;
 }
@@ -82,7 +82,7 @@ void outBin(PlyrDta p){
     //open the file
     fstream fout("player1.dat",  ios::binary);
     //write to file
-    cout<<"Writing the content to a file..."<<endl;
+    cout<<"Writing the contents to a file..."<<endl;
     fout.write(reinterpret_cast<char *>(&p),sizeof(p));
     //close the file
     fout.close();
