@@ -64,7 +64,12 @@ short menu(short &stats){
     bool skip=false;
     const int CHAMPS=5;//top five players recorded
     //create an array of structures
-    Records hiScore[CHAMPS]={};
+    Records hiScore[CHAMPS]={{{'B','r','a','n','d','e','n',' ','H','i','t','t'},20,5,5,10,100.00},
+                             {{'D','o','n','n','i','e',' ','D','a','r','k','o'},20,5,5,9,95.00},
+                             {{'A','m','e','l','i','e',' ','P','o','u','l','a','i','n'},20,5,5,8,90.00},
+                             {{'A','n','d','r','e','w',' ','R','y','a','n'},20,5,5,7,85.00},
+                             {{'L','o','u',' ','C','o','s','t','e','l','l','o'},20,5,5,0,50.00}
+    };
     //prompt for menu
     do{
         cout<<"MAIN MENU"<<endl;
@@ -74,6 +79,7 @@ short menu(short &stats){
         cout<<"      4: Start a game"<<endl;
         cout<<"      5: Exit the program"<<endl;
         cin>>cho;
+        cout<<"********************************"<<endl;
         //menu
         switch(cho){
             case '1':{
@@ -82,9 +88,9 @@ short menu(short &stats){
             }
             case '2':{
                 //create high scores
-                for(int i;i<CHAMPS;i++){
-                    hiScore[i]=filHi(i);
-                }
+//                for(int i;i<CHAMPS;i++){
+//                    hiScore[i]=filHi(i);
+//                }
                 //display the high scores
                 showStr(hiScore,CHAMPS);
                 break;
@@ -111,6 +117,7 @@ short menu(short &stats){
             }
         }
         //prompt for repeat
+        cout<<"********************************"<<endl;
         if(!skip){
             cout<<"Would you like to return to the menu or exit the program?"<<endl;
             cout<<"Enter in R to return to the menu or X for exit:"<<endl;
@@ -123,65 +130,37 @@ short menu(short &stats){
 //**********how to play***********************//
 void instruc(){
     //explain the rules
-    cout<<"Sample rule"<<endl;
-}
-//********fill high scores structures**********//
-Records filHi(int indx){
-    //fill record according to indx
-    if(indx==0){
-        //declare variable
-        Records temp={{'B','r','a','n','d','e','n',' ','H','i','t','t'}};
-        temp.ttlG=20;
-        temp.easyG=5;
-        temp.mediG=5;
-        temp.hardG=10;
-        temp.winR=100.00;
-        return temp;
-    }else if(indx==1){
-        Records temp={{'D','o','n','n','i','e',' ','D','a','r','k','o'}};
-        temp.ttlG=20;
-        temp.easyG=5;
-        temp.mediG=5;
-        temp.hardG=9;
-        temp.winR=95.00;
-        return temp;
-    }else if(indx==2){
-        Records temp={{'A','m','e','l','i','e',' ','P','o','u','l','a','i','n'}};
-        temp.ttlG=20;
-        temp.easyG=5;
-        temp.mediG=5;
-        temp.hardG=8;
-        temp.winR=90.00;
-        return temp;
-    }else if(indx==3){
-        Records temp={{'D','o','n','n','i','e',' ','D','a','r','k','o'}};
-        temp.ttlG=20;
-        temp.easyG=5;
-        temp.mediG=5;
-        temp.hardG=9;
-        temp.winR=85.00;
-        return temp;
-    }else{
-        Records temp={{'L','o','u',' ','C','o','s','t','e','l','l','o'}};
-        temp.ttlG=20;
-        temp.easyG=5;
-        temp.mediG=5;
-        temp.hardG=0;
-        temp.winR=50.00;
-        return temp;
-    }
+    cout<<"There is only one simple rule:"<<endl;
+    cout<<"Fill in the spaces so that each of the nine rows,"<<endl;
+    cout<<"each of the nine columns, and each of the nine"<<endl;
+    cout<<"3x3 sections contain all the numbers from 1 to 9."<<endl;
+    cout<<endl;
+    cout<<"There are 3 difficulties to choose from, and the only way to lose is to"<<endl;
+    cout<<"either quit early or reach a total of 5 errors on the table before winning."<<endl;
+    cout<<endl;
+    cout<<"During the game you will be prompted for index of the row first"<<endl;
+    cout<<"followed by the column, and then you input the number you believe"<<endl;
+    cout<<"to be correct. Good Luck"<<endl;
+    cout<<endl;
 }
 //************display the structure*******//
 void showStr(Records *a,int s){
+    char pause;
+    cin.ignore();
     for(int i=0;i<s;i++){
         cout<<endl;
+        cout<<"RANK "<<i+1<<endl;
         cout<<"Name             : "<<a[i].name<<endl;
         cout<<"Total Games      : "<<a[i].ttlG<<endl;
         cout<<"Easy Games Won   : "<<a[i].easyG<<endl;
         cout<<"Medium Games Won : "<<a[i].mediG<<endl;
         cout<<"Hard Games Won   : "<<a[i].hardG<<endl;
         cout<<"Win Rate         : "<<a[i].winR<<"%"<<endl;
+        //pause
+        cout<<"Press the Enter key to continue."<<endl;
+        cin.get(pause);
     }
+    cout<<endl;
 }
 //*******new Game*******//
 short newGame(short &stats){
