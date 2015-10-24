@@ -8,13 +8,16 @@
 #ifndef PLAYERDATA_H
 #define	PLAYERDATA_H
 
-struct PlyrDta{
-    string name;//player name
-    float winRate;//win rate
-    unsigned short easyG;//easy games played
-    unsigned short mediG;//medium games played
-    unsigned short hardG;//hard games played
+const int SIZE=30;
+struct Records{
+    char name[SIZE];//name
+    short ttlG;//total games played
+    short easyG;//easy games won
+    short mediG;//medium games won
+    short hardG;//hard games won
+    float winR;//win rate
 };
+
 
 #endif	/* PLAYERDATA_H */
 

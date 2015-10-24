@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Branden Hitt
  * Created on Oct 13th, 2015, 12:38 PM
- * Last edited: Oct 21,2015, 11:12 AM
+ * Last edited: Oct 23,2015, 11:12 AM
  *      Purpose: Create a game of Sudoku
  */
 
@@ -14,10 +14,15 @@
 using namespace std;
 
 //User Libraries
-
+#include "PlayerData.h"
 //Global Constants
 
 //Function Prototypes
+short menu(short &);//menu for player
+void instruc();//instructions on how to play
+void showRec();//show the record of player on file
+void entRec();//enter the record of player into a file
+short newGame(short &);//start a new game
 void filTbl(int [][9], int, short);//fill the table with the correct puzzle
 void filKey(int [][9], int, short);//fill the key with the correct key
 void prntTbl(int [][9], int, int &);//print sudoku table
@@ -31,31 +36,92 @@ void destGiv(int **,int);//de-allocate the array for givens
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //Declare Variables
-    const int DIMEN=9;//table dimensions
     const int GLENGTH=25;//greeting array length
-    char prompt1='0';//prompt for new player
-    int errors=0;//counter for errors in puzzle
-    bool win=false;//win condition to exit loop
-    short diff=0;//difficulty level
-    int count=0;//counter for givens
+    const int ILENGTH=9;//second part to be added
     char greet[GLENGTH]={'w','E','L','C','O','M','E',' ','T','O',' '};//greeting message
-    char ing[DIMEN]={'S','U','D','O','K','U'};
-    //create 2D array for table
-    int table[DIMEN][DIMEN]={};
-    int tableK[DIMEN][DIMEN]={};
-    //create array of structures
-    PlyrDta hiScore[5];
+    char ing[ILENGTH]={'S','U','D','O','K','U'};
+    short stats=0;//holds a value for win or loss
     //Greet the user and pull data
     gEdit(greet,ing,GLENGTH);//edit the greeting
     for(int i=0;i<GLENGTH;i++){
         cout<<greet[i];
     }
     cout<<endl;
-    cout<<"*******************"<<endl;
-    cout<<endl;
-    cout<<"Are you a returning player?"<<endl;
-    cout<<"Enter in Y for yes or N for new player now:"<<endl;
-    cin>>prompt1;
+    //send the player to the main menu
+    menu(stats);
+    //record player stats
+    
+    //Exit stage right
+    return 0;
+}
+//*******menu*******//
+short menu(short &stats){
+    //declare variables
+    char cho,repeat;
+    short result=0;
+    bool skip=false;
+    //prompt for menu
+    do{
+        cout<<"MAIN MENU"<<endl;
+        cout<<"Enter 1: Instructions on how to play"<<endl;
+        cout<<"      2: View High Scores"<<endl;
+        cout<<"      3: View Player Scores"<<endl;
+        cout<<"      4: Start a game"<<endl;
+        cout<<"      5: Exit the program"<<endl;
+        cin>>cho;
+        //menu
+        switch(cho){
+            case '1':{
+                instruc();//game instructions
+                break;
+            }
+            case '2':{
+                
+                break;
+            }
+            case '3':{
+                showRec();//show player record
+                break;
+            }
+            case '4':{
+                newGame(stats);//start a new game
+                
+                break;
+            }
+            case '5':{
+                skip=true;
+                repeat='X';
+                break;
+            }
+            default:{
+                cout<<"Invalid Entry"<<endl;
+                skip=true;
+                repeat='R';
+                break;
+            }
+        }
+        //prompt for repeat
+        if(!skip){
+            cout<<"Would you like to return to the menu or exit the program?"<<endl;
+            cout<<"Enter in R to return to the menu or X for exit:"<<endl;
+            cin>>repeat;
+        }
+    }while(repeat=='R'||repeat=='r');
+    //exit the program
+    return result;
+}
+//*******new Game*******//
+short newGame(short &stats){
+    //Declare Variables
+    const int DIMEN=9;//table dimensions
+    int errors=0;//counter for errors in puzzle
+    bool win=false, loss=false;//win condition to exit loop
+    short diff=0;//difficulty level
+    int count=0;//counter for givens
+    //create 2D array for table
+    int table[DIMEN][DIMEN]={};
+    int tableK[DIMEN][DIMEN]={};
+    //find difficulty level
     cout<<"What difficulty would you like?"<<endl;
     cout<<"1) Easy  2) Medium  3)Hard"<<endl;
     cin>>diff;
@@ -63,28 +129,6 @@ int main(int argc, char** argv) {
     filTbl(table,DIMEN,diff);
     //create key
     filKey(tableK,DIMEN,diff);
-    //sample tables for format
-//    int table[DIMEN][DIMEN]={{0,0,0,2,6,0,7,0,1},
-//                             {6,8,0,0,7,0,0,9,0},
-//                             {1,9,0,0,0,4,5,0,0},
-//                             {8,2,0,1,0,0,0,4,0},
-//                             {0,0,4,6,0,2,9,0,0},
-//                             {0,5,0,0,0,3,0,2,8},
-//                             {0,0,9,3,0,0,0,7,4},
-//                             {0,4,0,0,5,0,0,3,6},
-//                             {7,0,3,0,1,8,0,0,0}
-//                                };
-    //answer key
-//    int tableK[DIMEN][DIMEN]={{4,3,5,2,6,9,7,8,1},
-//                             {6,8,2,5,7,1,4,9,3},
-//                             {1,9,7,8,3,4,5,6,2},
-//                             {8,2,6,1,9,5,3,4,7},
-//                             {3,7,4,6,8,2,9,1,5},
-//                             {9,5,1,7,4,3,6,2,8},
-//                             {5,1,9,3,2,6,8,7,4},
-//                             {2,4,8,9,5,7,1,3,6},
-//                             {7,6,3,4,1,8,2,5,9}
-//                                };
     //find the givens
     int **arrayG=findGiv(table,count);
     //Output
@@ -101,11 +145,11 @@ int main(int argc, char** argv) {
     //            if((y+1)%2==0)cout<<endl;
     //        }
     //    }
-    }while(win==false);
+    }while(win==false && loss==false);
     //de-allocate the givens array
     destGiv(arrayG,2);
     //Exit stage right
-    return 0;
+    return stats;
 }
 //*******fill the table*******//
 void filTbl(int a[][9],int rC, short fNum){
@@ -317,4 +361,42 @@ void destGiv(int **a,int c){
     }
     //Destroy the rows
     delete []a;
+}
+//*******show player record*******//
+void showRec(){
+    //Declare Variables
+    Records data;
+    char again;
+    fstream fin;
+    //Open the file in binary
+    fin.open("Records.dat", ios::in | ios::binary);
+    //test for errors
+    if(!fin){
+        cout<<"Error opening File. No such file exists."<<endl;
+        return;
+    }
+    //read the first record
+    fin.read(reinterpret_cast<char *>(&data),sizeof(data));
+    //display while file isnt at the end
+    while(!fin.eof()){
+        //Display the record
+        cout<<"Name               : "<<data.name<<endl;
+        cout<<"Total Games Played : "<<data.ttlG<<endl;
+        cout<<"Easy Games Won     : "<<data.easyG<<endl;
+        cout<<"Medium Games Won   : "<<data.mediG<<endl;
+        cout<<"Hard Games Won     : "<<data.hardG<<endl;
+        cout<<"Win Rate           : "<<data.winR<<"%"<<endl;
+        //wait for enter
+        cout<<"Press the Enter key to continue."<<endl;
+        cin.get(again);
+        //read the next record from the file
+        fin.read(reinterpret_cast<char *>(&data),sizeof(data));
+    }
+    fin.close();
+    //Exit stage right
+    
+}
+//******enter player record*********//
+void entRec(){
+    
 }
