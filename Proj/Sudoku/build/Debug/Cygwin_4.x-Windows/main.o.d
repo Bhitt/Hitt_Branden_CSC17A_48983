@@ -1,3 +1,3 @@
-build/Debug/Cygwin_4.x-Windows/main.o: main.cpp HighScores.h
+build/Debug/Cygwin_4.x-Windows/main.o: main.cpp PlayerData.h
 
-HighScores.h:
+PlayerData.h:

@@ -22,6 +22,8 @@ short menu(short &);//menu for player
 void instruc();//instructions on how to play
 void showRec();//show the record of player on file
 void entRec();//enter the record of player into a file
+Records filHi(int);//fill the high score records
+void showStr(Records *,int);//display the high scores
 short newGame(short &);//start a new game
 void filTbl(int [][9], int, short);//fill the table with the correct puzzle
 void filKey(int [][9], int, short);//fill the key with the correct key
@@ -60,6 +62,9 @@ short menu(short &stats){
     char cho,repeat;
     short result=0;
     bool skip=false;
+    const int CHAMPS=5;//top five players recorded
+    //create an array of structures
+    Records hiScore[CHAMPS]={};
     //prompt for menu
     do{
         cout<<"MAIN MENU"<<endl;
@@ -76,7 +81,12 @@ short menu(short &stats){
                 break;
             }
             case '2':{
-                
+                //create high scores
+                for(int i;i<CHAMPS;i++){
+                    hiScore[i]=filHi(i);
+                }
+                //display the high scores
+                showStr(hiScore,CHAMPS);
                 break;
             }
             case '3':{
@@ -110,6 +120,69 @@ short menu(short &stats){
     //exit the program
     return result;
 }
+//**********how to play***********************//
+void instruc(){
+    //explain the rules
+    cout<<"Sample rule"<<endl;
+}
+//********fill high scores structures**********//
+Records filHi(int indx){
+    //fill record according to indx
+    if(indx==0){
+        //declare variable
+        Records temp={{'B','r','a','n','d','e','n',' ','H','i','t','t'}};
+        temp.ttlG=20;
+        temp.easyG=5;
+        temp.mediG=5;
+        temp.hardG=10;
+        temp.winR=100.00;
+        return temp;
+    }else if(indx==1){
+        Records temp={{'D','o','n','n','i','e',' ','D','a','r','k','o'}};
+        temp.ttlG=20;
+        temp.easyG=5;
+        temp.mediG=5;
+        temp.hardG=9;
+        temp.winR=95.00;
+        return temp;
+    }else if(indx==2){
+        Records temp={{'A','m','e','l','i','e',' ','P','o','u','l','a','i','n'}};
+        temp.ttlG=20;
+        temp.easyG=5;
+        temp.mediG=5;
+        temp.hardG=8;
+        temp.winR=90.00;
+        return temp;
+    }else if(indx==3){
+        Records temp={{'D','o','n','n','i','e',' ','D','a','r','k','o'}};
+        temp.ttlG=20;
+        temp.easyG=5;
+        temp.mediG=5;
+        temp.hardG=9;
+        temp.winR=85.00;
+        return temp;
+    }else{
+        Records temp={{'L','o','u',' ','C','o','s','t','e','l','l','o'}};
+        temp.ttlG=20;
+        temp.easyG=5;
+        temp.mediG=5;
+        temp.hardG=0;
+        temp.winR=50.00;
+        return temp;
+    }
+}
+//************display the structure*******//
+void showStr(Records *a,int s){
+    for(int i=0;i<s;i++){
+        cout<<endl;
+        cout<<"Name             : "<<a[i].name<<endl;
+        cout<<"Total Games      : "<<a[i].ttlG<<endl;
+        cout<<"Easy Games Won   : "<<a[i].easyG<<endl;
+        cout<<"Medium Games Won : "<<a[i].mediG<<endl;
+        cout<<"Hard Games Won   : "<<a[i].hardG<<endl;
+        cout<<"Win Rate         : "<<a[i].winR<<"%"<<endl;
+    }
+}
 //*******new Game*******//
 short newGame(short &stats){
     //Declare Variables
@@ -138,6 +211,7 @@ short newGame(short &stats){
         entNum(table,arrayG,count);
         //check for errors or win
         win=check(table,tableK,DIMEN,errors);
+        if(errors>=5) loss=true;
         //output array of givens <-- testing purposes
     //    for(int x=0;x<count;x++){
     //        for(int y=0;y<2;y++){
