@@ -87,10 +87,6 @@ short menu(short &stats){
                 break;
             }
             case '2':{
-                //create high scores
-//                for(int i;i<CHAMPS;i++){
-//                    hiScore[i]=filHi(i);
-//                }
                 //display the high scores
                 showStr(hiScore,CHAMPS);
                 break;
