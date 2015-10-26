@@ -471,8 +471,8 @@ Records entRec(string p){
 //******write player record to a file******//
 void writRec(Records p){
     //open file
-    ofstream fout;
-    fout.open("user.dat", ios::binary);
+    fstream fout;
+    fout.open("user.dat", ios::out || ios::binary);
     //write to file
     fout.write(reinterpret_cast<char *>(&p),sizeof(p));
     //close file
@@ -483,8 +483,8 @@ Records readRec(){
     //create structure
     Records temp;
     //open file
-    ifstream fin;
-    fin.open("user.dat", ios::binary);
+    fstream fin;
+    fin.open("user.dat", ios::in || ios::binary);
     //read file into structure
     fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
     //close file
