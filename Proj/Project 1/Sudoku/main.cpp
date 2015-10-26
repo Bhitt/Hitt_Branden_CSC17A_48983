@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Branden Hitt
  * Created on Oct 13th, 2015, 12:38 PM
- * Last edited: Oct 23,2015, 11:12 AM
+ * Last edited: Oct 25,2015, 9:00 PM
  *      Purpose: Create a game of Sudoku
  */
 
@@ -14,14 +14,14 @@
 using namespace std;
 
 //User Libraries
-#include "PlayerData.h"
+#include "PlayerData.h"//holds structure 
 //Global Constants
 
 //Function Prototypes
-short menu(Records &);//menu for player
+void menu(Records &);//menu for player
 void instruc();//instructions on how to play
 void showRec(Records);//show the record of player on file
-Records entRec(string);//enter the record of player into a file
+Records entRec(string);//enter the record of player into a structure
 Records readRec();//read the record of a player from a file
 void writRec(Records);//write the record of a player to a file
 void showStr(Records *,int);//display the high scores
@@ -44,13 +44,12 @@ int main(int argc, char** argv) {
     char greet[GLENGTH]={'w','E','L','C','O','M','E',' ','T','O',' '};//greeting message
     char ing[ILENGTH]={'S','U','D','O','K','U'};
     cout<<"********************************"<<endl;
-    short stats=0;//holds a value for win or loss
     char prompt1='X';//is the player new or returning
     string prompt="What is your name?";//prompt to be passed
-    Records user;
+    Records user;//structure of user data initialization
     //Greet the user and pull data
     gEdit(greet,ing,GLENGTH);//edit the greeting
-    for(int i=0;i<GLENGTH;i++){
+    for(int i=0;i<GLENGTH;i++){//loop and output greeting
         cout<<greet[i];
     }
     cout<<endl;
@@ -58,13 +57,24 @@ int main(int argc, char** argv) {
     do{
         cout<<"Before we begin, are you a new player?"<<endl;
         cout<<"Enter in Y for yes or N for no:"<<endl;
-        cin>>prompt1;
+        cin>>prompt1;//ask if the player is new
     }while((prompt1!='Y')&&(prompt1!='y')&&(prompt1!='N')&&(prompt1!='n'));
     if(prompt1=='Y'||prompt1=='y'){
-        user=entRec(prompt);
-        writRec(user);
+        user=entRec(prompt);// if the player is new, fill the structure
+        writRec(user);//create the file
     }else{
-        user=readRec();
+        ofstream fout;
+        fout.open("user.dat", ios::in);
+        if(fout.fail()){//if a returning player, check for file
+            fout.close();
+            cout<<"No previous user file exists."<<endl;
+            cout<<"Creating a new file now...."<<endl;
+            user=entRec(prompt);//if no file exists, then create one
+            writRec(user);
+        }else{
+            fout.close();
+            user=readRec();//if a file exists, fill structure with files contents
+        }
     }
     //send the player to the main menu
     cout<<"********************************"<<endl;
@@ -73,12 +83,11 @@ int main(int argc, char** argv) {
     return 0;
 }
 //*******menu*******//
-short menu(Records &user){
+void menu(Records &user){
     //declare variables
-    char cho,repeat;
-    short result=0;
-    bool skip=false;
-    const int CHAMPS=5;//top five players recorded
+    char cho,repeat;//choice and repeat
+    bool skip=false;//boolean for menu skipping
+    const int CHAMPS=5;//size of high score array
     //create an array of structures
     Records hiScore[CHAMPS]={{{'B','r','a','n','d','e','n',' ','H','i','t','t'},20,5,5,10,100.00},
                              {{'D','o','n','n','i','e',' ','D','a','r','k','o'},20,5,5,9,95.00},
@@ -108,7 +117,7 @@ short menu(Records &user){
                 break;
             }
             case '3':{
-                showRec(user);//show player record
+                showRec(user);//show player stats
                 break;
             }
             case '4':{
@@ -120,16 +129,16 @@ short menu(Records &user){
                 if(stats==1)user.easyG++;
                 if(stats==2)user.mediG++;
                 if(stats==3)user.hardG++;
-                //write score to file
+                //write stats to file
                 writRec(user);
                 break;
             }
             case '5':{
-                skip=true;
+                skip=true;//set to skip to end
                 repeat='X';
                 break;
             }
-            default:{
+            default:{//account for default entry
                 cout<<"Invalid Entry"<<endl;
                 skip=true;
                 repeat='R';
@@ -142,10 +151,10 @@ short menu(Records &user){
             cout<<"Would you like to return to the menu or exit the program?"<<endl;
             cout<<"Enter in R to return to the menu or X for exit:"<<endl;
             cin>>repeat;
+            cout<<"********************************"<<endl;
         }
     }while(repeat=='R'||repeat=='r');
     //exit the program
-    return result;
 }
 //**********how to play***********************//
 void instruc(){
@@ -155,20 +164,20 @@ void instruc(){
     cout<<"each of the nine columns, and each of the nine"<<endl;
     cout<<"3x3 sections contain all the numbers from 1 to 9."<<endl;
     cout<<endl;
-    cout<<"There are 3 difficulties to choose from, and the only way to lose is to"<<endl;
-    cout<<"either quit early or reach a total of 5 errors on the table before winning."<<endl;
+    cout<<"There are 3 difficulty levels to choose from, and the only way to lose"<<endl;
+    cout<<"is to reach a total of 5 errors on the table before winning."<<endl;
     cout<<endl;
-    cout<<"During the game you will be prompted for index of the row first"<<endl;
+    cout<<"During the game you will be prompted for index of the row first,"<<endl;
     cout<<"followed by the column, and then you input the number you believe"<<endl;
     cout<<"to be correct. Good Luck"<<endl;
     cout<<endl;
 }
 //************display the structure*******//
 void showStr(Records *a,int s){
-    char pause;
+    char pause;//pause variable
     cin.ignore();
-    for(int i=0;i<s;i++){
-        cout<<endl;
+    for(int i=0;i<s;i++){//loop through array of structures
+        cout<<endl;//display current structure
         cout<<"RANK "<<i+1<<endl;
         cout<<"Name             : "<<a[i].name<<endl;
         cout<<"Total Games      : "<<a[i].ttlG<<endl;
@@ -213,26 +222,20 @@ short newGame(){
         //check for errors or win
         win=check(table,tableK,DIMEN,errors);
         if(errors>=5) loss=true;
-        //output array of givens <-- testing purposes
-    //    for(int x=0;x<count;x++){
-    //        for(int y=0;y<2;y++){
-    //            cout<<arrayG[x][y];
-    //            if((y+1)%2==0)cout<<endl;
-    //        }
-    //    }
     }while(win==false && loss==false);
-    if(win==true){
-        if(diff==1)stats=1;
+    //after exiting current game
+    if(win==true){//if win
+        if(diff==1)stats=1;//tally which level diff is won
         if(diff==2)stats=2;
         if(diff==3)stats=3;
         cout<<endl;
         cout<<"****************************"<<endl;
-        cout<<"*CONGRATS!! YOU HAVE WON!!!*"<<endl;
+        cout<<"*CONGRATS!! YOU HAVE WON!!!*"<<endl;//give congrats message
         cout<<"****************************"<<endl;
         cout<<endl;
     }else{
         cout<<"Too many errors. YOU LOSE"<<endl;
-        stats=4;
+        stats=4;//if loss, record loss
     }
     //de-allocate the givens array
     destGiv(arrayG,2);
@@ -243,7 +246,7 @@ short newGame(){
 void filTbl(int a[][9],int rC, short fNum){
     //declare variables
     ifstream fin;
-    //open file
+    //open file according to difficulty level
     if(fNum==1) fin.open("puzzle1.txt");
     else if(fNum==2) fin.open("puzzle2.txt");
     else fin.open("puzzle3.txt");
@@ -260,7 +263,7 @@ void filTbl(int a[][9],int rC, short fNum){
 void filKey(int a[][9], int rC, short fNum){
     //declare variables
     ifstream fin;//file input
-    //open file
+    //open file according to difficulty level
     if(fNum==1) fin.open("key1.txt");
     else if(fNum==2) fin.open("key2.txt");
     else fin.open("key3.txt");
@@ -299,33 +302,33 @@ void prntTbl(int a[][9], int rC,int &err){
         //if(((y+1)==3)||((y+1)==6))cout<<"| ";
     }
     cout<<endl;
-    //if(((x+1)==3)||((x+1)==6))cout<<"    _____________________"<<endl;
  }
-    cout<<"Total Errors: ("<<err<<")"<<endl;
+    cout<<"Total Errors: ("<<err<<")"<<endl;//keep track of errors on table
 }
 //*******enter a number into a table*******//
 void entNum(int a[][9],int **b,int count){
-    char rowIn='0',colIn='0';
-    short row=10,col=10,guess=10;
-    bool gChk=false;
+    //declare variables
+    char rowIn='0',colIn='0';//variables to hold selection
+    short row=10,col=10,guess=10;//variables to hold translated selection
+    bool gChk=false;//boolean for isGiven
     do{
         //input row
         do{
             cout<<"What is the letter of the row (ex: a)"<<endl;
-            cin>>rowIn;
-            if(!(isalpha(rowIn)))cout<<"Input needs to be a letter from a-i."<<endl;
-            row=assign(rowIn);
+            cin>>rowIn;//select row (ex: a)
+            if(!(isalpha(rowIn)))cout<<"Input needs to be a letter from a-i."<<endl;//input validation
+            row=assign(rowIn);//assign number to choice (ex: a=0)
             if(!(row>=0&&row<=9))cout<<"Invalid Entry"<<endl;
         }while(row<0||row>9);
         //input col
         do{
             cout<<"What is the letter of the column (ex: A)"<<endl;
-            cin>>colIn;
-            if(!(isalpha(colIn)))cout<<"Input needs to be a letter from A-I."<<endl;
-            col=assign(colIn);
+            cin>>colIn;//select col (ex: A)
+            if(!(isalpha(colIn)))cout<<"Input needs to be a letter from A-I."<<endl;//input validation
+            col=assign(colIn);//assign a number to choice (ex: A=0)
             if(!(col>=0&&col<=9))cout<<"Invalid Entry"<<endl;
         }while(col<0||col>9);
-        gChk=isGiven(b,count,row,col);
+        gChk=isGiven(b,count,row,col);//check to make sure its not a given
         if(gChk==true){
             cout<<"Cannot edit a Given"<<endl;
             cout<<endl;
@@ -334,14 +337,14 @@ void entNum(int a[][9],int **b,int count){
     //enter in the number to table
     do{
         cout<<"What is the number you wish to input (1-9)"<<endl;
-        cin>>guess;
-        if(guess<1||guess>9)cout<<"Invalid Entry"<<endl;
+        cin>>guess;//enter in guess
+        if(guess<1||guess>9)cout<<"Invalid Entry"<<endl;//input validation
     }while(guess<1||guess>9);
-    a[row][col]=guess;
+    a[row][col]=guess;//enter in guess into table
 }
 //*******assign a number to a char*******//
 short assign(char c){
-    if(c=='A'||c=='a')return 0;
+    if(c=='A'||c=='a')return 0;//'A' returns 0 and so on...
     else if(c=='B'||c=='b')return 1;
     else if(c=='C'||c=='c')return 2;
     else if(c=='D'||c=='d')return 3;
@@ -350,7 +353,7 @@ short assign(char c){
     else if(c=='G'||c=='g')return 6;
     else if(c=='H'||c=='h')return 7;
     else if(c=='I'||c=='i')return 8;
-    else return 10;//for incorrect input
+    else return 10;//default case for incorrect input
 }
 //*******check the table for win or errors*******//
 bool check(int a[][9],int b[][9],int rC,int &e){
@@ -360,21 +363,21 @@ bool check(int a[][9],int b[][9],int rC,int &e){
     for(int x=0;x<rC;x++){
         for(int y=0;y<rC;y++){
             if(a[x][y]!=b[x][y]){
-                if(a[x][y]!=0) ttlE++;
+                if(a[x][y]!=0) ttlE++;//if error is found, incriment error
             }
         }
     }
-    e=ttlE;
+    e=ttlE;//set reference variable = current errors
     if(ttlE==0){//if no errors
         //loop and check for win
         for(int x=0;x<rC;x++){
             for(int y=0;y<rC;y++){
-                if(a[x][y]==b[x][y]) winC++;
+                if(a[x][y]==b[x][y]) winC++;//counter for correct answers
             }
         }
-        if(winC==81)return true;
+        if(winC==81)return true;//if all correct, return true
     } 
-    return false;
+    return false;//if not finished, return false
 }
 //*******greeting's editor*******//
 void gEdit(char a[],char b[],int c){
@@ -411,7 +414,7 @@ int **findGiv(int p[][9],int &row){
         for(int i=0;i<row;i++){
             array[i]=new int[col];
         }
-        //fill the array
+        //fill the array with givens positions
         for(int x=0;x<9;x++){
             for(int y=0;y<9;y++){
                if(p[x][y]!=0){
@@ -427,7 +430,7 @@ int **findGiv(int p[][9],int &row){
         return array;
     }else{
         //do nothing - no givens
-        cout<<"No Givens in puzzle"<<endl;
+        cout<<"No Givens in puzzle"<<endl;//error case
     }
 }
 //*******check to make sure player isn't editing givens*******//
@@ -450,48 +453,14 @@ void destGiv(int **a,int c){
     //Destroy the rows
     delete []a;
 }
-//*******show player record*******//
-void showRec(){
-    //Declare Variables
-    Records data;
-    char again;
-    fstream fin;
-    //Open the file in binary
-    fin.open("Records.dat", ios::in | ios::binary);
-    //test for errors
-    if(!fin){
-        cout<<"Error opening File. No such file exists."<<endl;
-        return;
-    }
-    //read the first record
-    fin.read(reinterpret_cast<char *>(&data),sizeof(data));
-    //display while file isnt at the end
-    while(!fin.eof()){
-        //Display the record
-        cout<<"Name               : "<<data.name<<endl;
-        cout<<"Total Games Played : "<<data.ttlG<<endl;
-        cout<<"Easy Games Won     : "<<data.easyG<<endl;
-        cout<<"Medium Games Won   : "<<data.mediG<<endl;
-        cout<<"Hard Games Won     : "<<data.hardG<<endl;
-        cout<<"Win Rate           : "<<data.winR<<"%"<<endl;
-        //wait for enter
-        cout<<"Press the Enter key to continue."<<endl;
-        cin.get(again);
-        //read the next record from the file
-        fin.read(reinterpret_cast<char *>(&data),sizeof(data));
-    }
-    fin.close();
-    //Exit stage right
-    
-}
 //******enter player record*********//
 Records entRec(string p){
     //declare struct
     Records temp;
-    cout<<p<<endl;
+    cout<<p<<endl;//prompt for name in record
     cin.ignore();
     cin.getline(temp.name,30);
-    temp.ttlG=0;
+    temp.ttlG=0;//set all other values to zer0
     temp.easyG=0;
     temp.mediG=0;
     temp.hardG=0;
@@ -525,11 +494,11 @@ Records readRec(){
 }
 //*********show player record*********//
 void showRec(Records p){
-    //calculate
+    //calculate win rate
     float winRate;
     if(p.ttlG>0)winRate = ((p.easyG)+(p.mediG)+(p.hardG))*100.0f/ p.ttlG;
     else winRate=0;
-    //output
+    //output all of structure
     cout<<"Name               : "<<p.name<<endl;
     cout<<"Total Games Played : "<<p.ttlG<<endl;
     cout<<"Easy Games Won     : "<<p.easyG<<endl;
