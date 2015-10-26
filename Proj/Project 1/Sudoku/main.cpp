@@ -18,13 +18,14 @@ using namespace std;
 //Global Constants
 
 //Function Prototypes
-short menu(short &);//menu for player
+short menu(Records &);//menu for player
 void instruc();//instructions on how to play
-void showRec();//show the record of player on file
-void entRec();//enter the record of player into a file
-Records filHi(int);//fill the high score records
+void showRec(Records);//show the record of player on file
+Records entRec(string);//enter the record of player into a file
+Records readRec();//read the record of a player from a file
+void writRec(Records);//write the record of a player to a file
 void showStr(Records *,int);//display the high scores
-short newGame(short &);//start a new game
+short newGame();//start a new game
 void filTbl(int [][9], int, short);//fill the table with the correct puzzle
 void filKey(int [][9], int, short);//fill the key with the correct key
 void prntTbl(int [][9], int, int &);//print sudoku table
@@ -42,22 +43,37 @@ int main(int argc, char** argv) {
     const int ILENGTH=9;//second part to be added
     char greet[GLENGTH]={'w','E','L','C','O','M','E',' ','T','O',' '};//greeting message
     char ing[ILENGTH]={'S','U','D','O','K','U'};
+    cout<<"********************************"<<endl;
     short stats=0;//holds a value for win or loss
+    char prompt1='X';//is the player new or returning
+    string prompt="What is your name?";//prompt to be passed
+    Records user;
     //Greet the user and pull data
     gEdit(greet,ing,GLENGTH);//edit the greeting
     for(int i=0;i<GLENGTH;i++){
         cout<<greet[i];
     }
     cout<<endl;
+    //set up player file
+    do{
+        cout<<"Before we begin, are you a new player?"<<endl;
+        cout<<"Enter in Y for yes or N for no:"<<endl;
+        cin>>prompt1;
+    }while((prompt1!='Y')&&(prompt1!='y')&&(prompt1!='N')&&(prompt1!='n'));
+    if(prompt1=='Y'||prompt1=='y'){
+        user=entRec(prompt);
+        writRec(user);
+    }else{
+        user=readRec();
+    }
     //send the player to the main menu
-    menu(stats);
-    //record player stats
-    
+    cout<<"********************************"<<endl;
+    menu(user);
     //Exit stage right
     return 0;
 }
 //*******menu*******//
-short menu(short &stats){
+short menu(Records &user){
     //declare variables
     char cho,repeat;
     short result=0;
@@ -75,7 +91,7 @@ short menu(short &stats){
         cout<<"MAIN MENU"<<endl;
         cout<<"Enter 1: Instructions on how to play"<<endl;
         cout<<"      2: View High Scores"<<endl;
-        cout<<"      3: View Player Scores"<<endl;
+        cout<<"      3: View Player Stats"<<endl;
         cout<<"      4: Start a game"<<endl;
         cout<<"      5: Exit the program"<<endl;
         cin>>cho;
@@ -92,12 +108,20 @@ short menu(short &stats){
                 break;
             }
             case '3':{
-                showRec();//show player record
+                showRec(user);//show player record
                 break;
             }
             case '4':{
-                newGame(stats);//start a new game
-                
+                short stats=0;
+                //start a new game
+                user.ttlG++;
+                stats=newGame();
+                //record stats
+                if(stats==1)user.easyG++;
+                if(stats==2)user.mediG++;
+                if(stats==3)user.hardG++;
+                //write score to file
+                writRec(user);
                 break;
             }
             case '5':{
@@ -159,13 +183,14 @@ void showStr(Records *a,int s){
     cout<<endl;
 }
 //*******new Game*******//
-short newGame(short &stats){
+short newGame(){
     //Declare Variables
     const int DIMEN=9;//table dimensions
     int errors=0;//counter for errors in puzzle
     bool win=false, loss=false;//win condition to exit loop
     short diff=0;//difficulty level
     int count=0;//counter for givens
+    short stats=0;//determined outcome for stats
     //create 2D array for table
     int table[DIMEN][DIMEN]={};
     int tableK[DIMEN][DIMEN]={};
@@ -173,6 +198,7 @@ short newGame(short &stats){
     cout<<"What difficulty would you like?"<<endl;
     cout<<"1) Easy  2) Medium  3)Hard"<<endl;
     cin>>diff;
+    cout<<"********************************"<<endl;
     //Create Table to be solved
     filTbl(table,DIMEN,diff);
     //create key
@@ -195,6 +221,19 @@ short newGame(short &stats){
     //        }
     //    }
     }while(win==false && loss==false);
+    if(win==true){
+        if(diff==1)stats=1;
+        if(diff==2)stats=2;
+        if(diff==3)stats=3;
+        cout<<endl;
+        cout<<"****************************"<<endl;
+        cout<<"*CONGRATS!! YOU HAVE WON!!!*"<<endl;
+        cout<<"****************************"<<endl;
+        cout<<endl;
+    }else{
+        cout<<"Too many errors. YOU LOSE"<<endl;
+        stats=4;
+    }
     //de-allocate the givens array
     destGiv(arrayG,2);
     //Exit stage right
@@ -446,6 +485,56 @@ void showRec(){
     
 }
 //******enter player record*********//
-void entRec(){
+Records entRec(string p){
+    //declare struct
+    Records temp;
+    cout<<p<<endl;
+    cin.ignore();
+    cin.getline(temp.name,30);
+    temp.ttlG=0;
+    temp.easyG=0;
+    temp.mediG=0;
+    temp.hardG=0;
+    temp.winR=0.00;
+    //return struct
+    return temp;
+}
+//******write player record to a file******//
+void writRec(Records p){
+    //open file
+    ofstream fout;
+    fout.open("user.dat", ios::binary);
+    //write to file
+    fout.write(reinterpret_cast<char *>(&p),sizeof(p));
+    //close file
+    fout.close();
+}
+//*******read player record from file*******//
+Records readRec(){
+    //create structure
+    Records temp;
+    //open file
+    ifstream fin;
+    fin.open("user.dat", ios::binary);
+    //read file into structure
+    fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
+    //close file
+    fin.close();
+    //return struct
+    return temp;
+}
+//*********show player record*********//
+void showRec(Records p){
+    //calculate
+    float winRate;
+    if(p.ttlG>0)winRate = ((p.easyG)+(p.mediG)+(p.hardG))*100.0f/ p.ttlG;
+    else winRate=0;
+    //output
+    cout<<"Name               : "<<p.name<<endl;
+    cout<<"Total Games Played : "<<p.ttlG<<endl;
+    cout<<"Easy Games Won     : "<<p.easyG<<endl;
+    cout<<"Medium Games Won   : "<<p.mediG<<endl;
+    cout<<"Hard Games Won     : "<<p.hardG<<endl;
+    cout<<"Win Rate           : "<<winRate<<"%"<<endl;
     
 }
