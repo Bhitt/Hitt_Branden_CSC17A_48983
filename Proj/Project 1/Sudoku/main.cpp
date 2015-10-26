@@ -472,7 +472,7 @@ Records entRec(string p){
 void writRec(Records p){
     //open file
     fstream fout;
-    fout.open("user.dat", ios::out || ios::binary);
+    fout.open("user.dat", ios::out | ios::binary);
     //write to file
     fout.write(reinterpret_cast<char *>(&p),sizeof(p));
     //close file
@@ -484,7 +484,7 @@ Records readRec(){
     Records temp;
     //open file
     fstream fin;
-    fin.open("user.dat", ios::in || ios::binary);
+    fin.open("user.dat", ios::in | ios::binary);
     //read file into structure
     fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
     //close file
