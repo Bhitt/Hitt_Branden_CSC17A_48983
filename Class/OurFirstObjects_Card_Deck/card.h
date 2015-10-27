@@ -1,7 +1,7 @@
 /* 
  * File:   card.h
- * Author: Branden Hitt
- * Created on October 15, 2015, 11:59 AM
+ * Author: Dr. Mark E. Lehr
+ * Created on October 15, 2015, 11:20 AM
  * Purpose: Specification for the Card Class
  */
 
@@ -12,12 +12,12 @@ class Card{
     private:
         char number;
     public:
-        Card(char);                      //Constructor
-        void setNum(char);               //Mutator
-        char getNum(){return number;}    //Accessor (in-line function))
-        char suit();                     //Suit property
-        char numVal();                   //Numerical value property
-        char faceVal();                  //Face value property
+        Card(char);                       //Constructor
+        void setNum(char);                //Mutator
+        char getNum(){return number;}     //Accessor (in-line)
+        char suit();                      //Suit property
+        char numVal();                    //Numerical Value property
+        char faceVal();                   //Face value property
 };
 
 #endif	/* CARD_H */
