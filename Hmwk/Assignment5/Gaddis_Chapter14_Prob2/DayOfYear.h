@@ -16,13 +16,14 @@ class DayOfYear{
         int day;
         static string *ptr;
     public:
+        void setPtr();                   //setter
         DayOfYear(int);             //constructor
         int getDay();               //accessor
         string getPtr(int);         //accessor
         void print();               //display
 };
 
-string *DayOfYear::ptr=month;
+string* DayOfYear::ptr;
 
 #endif	/* DAYOFYEAR_H */
 

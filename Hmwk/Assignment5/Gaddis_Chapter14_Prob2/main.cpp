@@ -13,8 +13,9 @@ using namespace std;
 //User Libraries
 #include "DayOfYear.h"
 //Global Constants
-string month[12]={"January","February","March","April","May","June",
-                  "July","August","September","October","November","December"};
+//string month[12]={"January","February","March","April","May","June",
+//                  "July","August","September","October","November","December"};
+
 //Function Prototypes
 
 //Execution Begins Here!

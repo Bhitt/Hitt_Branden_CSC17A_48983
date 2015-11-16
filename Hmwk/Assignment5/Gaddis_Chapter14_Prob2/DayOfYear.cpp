@@ -16,6 +16,12 @@ DayOfYear::DayOfYear(int d){
     day=d;
 }
 
+void DayOfYear::setPtr(){
+    string month[12]={"January","February","March","April","May","June",
+                  "July","August","September","October","November","December"};
+    string* DayOfYear::ptr=month;
+}
+
 string DayOfYear::getPtr(int i){
     return *(ptr+i);
 }
