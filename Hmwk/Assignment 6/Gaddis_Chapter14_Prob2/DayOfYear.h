@@ -14,7 +14,7 @@ using namespace std;
 class DayOfYear{
     private:
         int day;
-        static string *ptr;
+        static string month[12];
     public:
         void setPtr();                   //setter
         DayOfYear(int);             //constructor
@@ -22,8 +22,6 @@ class DayOfYear{
         string getPtr(int);         //accessor
         void print();               //display
 };
-
-string* DayOfYear::ptr;
 
 #endif	/* DAYOFYEAR_H */
 
