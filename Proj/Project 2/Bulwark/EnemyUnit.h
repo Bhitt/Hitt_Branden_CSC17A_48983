@@ -1,0 +1,29 @@
+/* 
+ * File:   EnemyUnit.h
+ * Author: Administrator
+ * Purpose: Specification of the Enemy Unit Class
+ * Created on November 27, 2015, 8:30 PM
+ */
+#include <string>
+using namespace std;
+
+#ifndef ENEMYUNIT_H
+#define	ENEMYUNIT_H
+
+class EnemyUnit{
+    private:
+        string name;
+        int health;
+        int dps;
+    public:
+        EnemyUnit(string,int,int);      //Constructor
+        void setName(string);           //Mutator
+        string getName();               //Accessor
+        void setHlth(int);              //Mutator
+        int getHlth(){return health;}   //Accessor (in-line)
+        void setDps(int);               //Mutator
+        int getDps();                   //Accessor
+};
+
+#endif	/* ENEMYUNIT_H */
+
