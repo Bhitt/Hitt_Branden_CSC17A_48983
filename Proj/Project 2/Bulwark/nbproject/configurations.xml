@@ -4,7 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>CrapUnit.h</itemPath>
+      <itemPath>CrapUnitElite.h</itemPath>
       <itemPath>EnemyUnit.h</itemPath>
+      <itemPath>Player.h</itemPath>
+      <itemPath>Weapon.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +17,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>CrapUnit.cpp</itemPath>
+      <itemPath>CrapUnitElite.cpp</itemPath>
       <itemPath>EnemyUnit.cpp</itemPath>
+      <itemPath>Weapon.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -38,9 +45,23 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="CrapUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CrapUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CrapUnitElite.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CrapUnitElite.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="EnemyUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Player.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Weapon.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -65,9 +86,23 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="CrapUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CrapUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="CrapUnitElite.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="CrapUnitElite.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="EnemyUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Player.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Weapon.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

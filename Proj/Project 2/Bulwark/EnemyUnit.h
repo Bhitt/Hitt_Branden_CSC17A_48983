@@ -1,7 +1,7 @@
 /* 
  * File:   EnemyUnit.h
- * Author: Administrator
- * Purpose: Specification of the Enemy Unit Class
+ * Author: Branden Hitt
+ * Purpose: Specification of the EnemyUnit Class
  * Created on November 27, 2015, 8:30 PM
  */
 #include <string>
@@ -11,11 +11,12 @@ using namespace std;
 #define	ENEMYUNIT_H
 
 class EnemyUnit{
-    private:
+    protected:
         string name;
         int health;
         int dps;
     public:
+        EnemyUnit(){name="Empty",health=0,dps=0;} //Default Constructor (in-line)
         EnemyUnit(string,int,int);      //Constructor
         void setName(string);           //Mutator
         string getName();               //Accessor

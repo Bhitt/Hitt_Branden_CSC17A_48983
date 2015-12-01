@@ -1,7 +1,7 @@
 /* 
  * File:   EnemyUnit.h
- * Author: Administrator
- * Purpose: Implementation of the Enemy Unit Class
+ * Author: Branden Hitt
+ * Purpose: Implementation of the EnemyUnit Class
  * Created on November 27, 2015, 8:40 PM
  */
 
