@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/CrapUnit.o \
 	${OBJECTDIR}/CrapUnitElite.o \
 	${OBJECTDIR}/EnemyUnit.o \
+	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/Weapon.o \
 	${OBJECTDIR}/main.o
 
@@ -80,6 +81,11 @@ ${OBJECTDIR}/EnemyUnit.o: EnemyUnit.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyUnit.o EnemyUnit.cpp
+
+${OBJECTDIR}/Player.o: Player.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
 
 ${OBJECTDIR}/Weapon.o: Weapon.cpp 
 	${MKDIR} -p ${OBJECTDIR}

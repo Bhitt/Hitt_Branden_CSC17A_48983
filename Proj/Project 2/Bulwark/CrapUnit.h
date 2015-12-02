@@ -11,7 +11,7 @@
 #include "EnemyUnit.h"
 
 class CrapUnit : public EnemyUnit{
-    private:
+    protected:
        string type;         
        string weakness;
     public:

@@ -19,6 +19,18 @@ class Player{
         string arche;
         Weapon weapon;
     public:
+        Player();                               //Default Constructor
+        Player(string,int,int,string);          //Constructor
+        void setName(string);                   //Mutator
+        void setHel(int);                       //Mutator
+        void setDps(int);                       //Mutator
+        void setArch(string);                   //Mutator    
+        void setWepn(Weapon &);                 //Mutator
+        string getName(){ return name;}         //Accessor (in-line)
+        int getHel(){ return health;}           //Accessor (in-line)
+        int getDps(){ return dps;}              //Accessor (in-line)
+        string getArch(){ return arche;}        //Accessor (in-line)
+        Weapon getWepn(){ return weapon;}       //Accessor (in-line)
 };
 
 #endif	/* PLAYER_H */
