@@ -8,11 +8,11 @@
 #include "Player.h"
 
 Player::Player(){
-    /*name="default";
+    name="default";
     health=0;
     dps=0;
     arche="default";
-    weapon=Weapon();*/
+    weapon=Weapon();
 }
 Player::Player(string na, int he, int dp, string ar){
     name=na;

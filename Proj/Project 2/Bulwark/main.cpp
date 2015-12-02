@@ -22,14 +22,14 @@ using namespace std;
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //first object test
-    Player player1();
+    Player player1;
     Player player2("Branden",500,30,"Badass");
     cout<<"Default Player"<<endl;
-    //cout<<"name       :"<<player1.getName()<<endl;
-    //cout<<"health     :"<<player1.getHel()<<endl;
-    //cout<<"dps        :"<<player1.getDps()<<endl;
-    //cout<<"archetype  :"<<player1.getArch()<<endl;
-    //cout<<"weapon name:"<<player1.getWepn().getWNam()<<endl;
+    cout<<"name       :"<<player1.getName()<<endl;
+    cout<<"health     :"<<player1.getHel()<<endl;
+    cout<<"dps        :"<<player1.getDps()<<endl;
+    cout<<"archetype  :"<<player1.getArch()<<endl;
+    cout<<"weapon name:"<<player1.getWepn().getWNam()<<endl;
     //second object test
     cout<<endl;
     cout<<"Constructed Player"<<endl;
