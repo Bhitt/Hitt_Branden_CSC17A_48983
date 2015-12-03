@@ -18,6 +18,8 @@ class Player{
         int dps;
         string arche;
         Weapon weapon;
+        int maxHlth;
+        int waveCnt;
     public:
         Player();                               //Default Constructor
         Player(string,int,int,string);          //Constructor
@@ -26,11 +28,15 @@ class Player{
         void setDps(int);                       //Mutator
         void setArch(string);                   //Mutator    
         void setWepn(Weapon &);                 //Mutator
+        void setMaxH(int);                      //Mutator
+        void setWave(int);                      //Mutator
         string getName(){ return name;}         //Accessor (in-line)
         int getHel(){ return health;}           //Accessor (in-line)
         int getDps(){ return dps;}              //Accessor (in-line)
         string getArch(){ return arche;}        //Accessor (in-line)
         Weapon getWepn(){ return weapon;}       //Accessor (in-line)
+        int getMaxH(){ return maxHlth;}         //Accessor (in-line)
+        int getWave(){ return waveCnt;}         //Accessor (in-line)
 };
 
 #endif	/* PLAYER_H */

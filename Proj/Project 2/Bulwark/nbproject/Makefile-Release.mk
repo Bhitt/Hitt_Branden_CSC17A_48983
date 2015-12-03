@@ -35,9 +35,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/BossUnit.o \
 	${OBJECTDIR}/CrapUnit.o \
 	${OBJECTDIR}/CrapUnitElite.o \
 	${OBJECTDIR}/EnemyUnit.o \
+	${OBJECTDIR}/ModerateUnit.o \
+	${OBJECTDIR}/ModerateUnitElite.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/Weapon.o \
 	${OBJECTDIR}/main.o
@@ -67,6 +70,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bulwark.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bulwark ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/BossUnit.o: BossUnit.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BossUnit.o BossUnit.cpp
+
 ${OBJECTDIR}/CrapUnit.o: CrapUnit.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -81,6 +89,16 @@ ${OBJECTDIR}/EnemyUnit.o: EnemyUnit.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyUnit.o EnemyUnit.cpp
+
+${OBJECTDIR}/ModerateUnit.o: ModerateUnit.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ModerateUnit.o ModerateUnit.cpp
+
+${OBJECTDIR}/ModerateUnitElite.o: ModerateUnitElite.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ModerateUnitElite.o ModerateUnitElite.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp 
 	${MKDIR} -p ${OBJECTDIR}

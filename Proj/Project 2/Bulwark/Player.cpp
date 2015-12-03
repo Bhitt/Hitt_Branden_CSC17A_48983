@@ -13,6 +13,8 @@ Player::Player(){
     dps=0;
     arche="default";
     weapon=Weapon();
+    maxHlth=0;
+    waveCnt=0;
 }
 Player::Player(string na, int he, int dp, string ar){
     name=na;
@@ -20,6 +22,8 @@ Player::Player(string na, int he, int dp, string ar){
     dps=dp;
     arche=ar;
     weapon=Weapon();
+    maxHlth=he;
+    waveCnt=0;
 }
 void Player::setName(string na){
     name=na;
@@ -35,4 +39,10 @@ void Player::setArch(string a){
 }
 void Player::setWepn(Weapon &w){
     weapon=w;
+}
+void Player::setMaxH(int m){
+    maxHlth=m;
+}
+void Player::setWave(int w){
+    waveCnt=w;
 }

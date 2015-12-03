@@ -4,9 +4,12 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>BossUnit.h</itemPath>
       <itemPath>CrapUnit.h</itemPath>
       <itemPath>CrapUnitElite.h</itemPath>
       <itemPath>EnemyUnit.h</itemPath>
+      <itemPath>ModerateUnit.h</itemPath>
+      <itemPath>ModerateUnitElite.h</itemPath>
       <itemPath>Player.h</itemPath>
       <itemPath>Weapon.h</itemPath>
     </logicalFolder>
@@ -17,9 +20,12 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>BossUnit.cpp</itemPath>
       <itemPath>CrapUnit.cpp</itemPath>
       <itemPath>CrapUnitElite.cpp</itemPath>
       <itemPath>EnemyUnit.cpp</itemPath>
+      <itemPath>ModerateUnit.cpp</itemPath>
+      <itemPath>ModerateUnitElite.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
       <itemPath>Weapon.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -46,6 +52,10 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="BossUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BossUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CrapUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CrapUnit.h" ex="false" tool="3" flavor2="0">
@@ -57,6 +67,14 @@
       <item path="EnemyUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ModerateUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ModerateUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ModerateUnitElite.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ModerateUnitElite.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -89,6 +107,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="BossUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BossUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="CrapUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="CrapUnit.h" ex="false" tool="3" flavor2="0">
@@ -100,6 +122,14 @@
       <item path="EnemyUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ModerateUnit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ModerateUnit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ModerateUnitElite.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ModerateUnitElite.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>
