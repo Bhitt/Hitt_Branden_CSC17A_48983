@@ -8,7 +8,7 @@
 #include <cstdlib>
 BossUnit::BossUnit(){
     srand(static_cast<unsigned int>(time(0)));
-    int pick=(rand()%5+)1;
+    int pick=(rand()%5+1);
     if(pick==1){
         name="Nosferatu";
         health=1000;
