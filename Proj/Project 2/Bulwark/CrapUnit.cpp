@@ -6,11 +6,43 @@
  */
 
 #include "CrapUnit.h"
-
+#include <cstdlib>
+#include <iostream>
 
 CrapUnit::CrapUnit(){
-    type="default";
-    weakness="default";
+    srand(static_cast<unsigned int>(time(0)));
+    int pick=(rand()%5+1);
+    if(pick==1){
+        name="Young Vampire";
+        health=160;
+        dps=25;
+        type="Vampire";
+        weakness="Paladin";
+    }else if(pick==2){
+        name="Dark Rider";
+        health=140;
+        dps=30;
+        type="Vandal";
+        weakness="Ranger";
+    }else if(pick==3){
+        name="Lunatic";
+        health=100;
+        dps=50;
+        type="Mad Scientist";
+        weakness="Warlock";
+    }else if(pick==4){
+        name="Abomination";
+        health=200;
+        dps=20;
+        type="Frankenstein";
+        weakness="Beserker";
+    }else{
+        name="Cultist";
+        health=50;
+        dps=120;
+        type="Vampire";
+        weakness="Any";
+    }
 }
 CrapUnit::CrapUnit(string na, int he, int d, string ty, string weak){
     name=na;
@@ -24,4 +56,9 @@ void CrapUnit::setType(string t){
 }
 void CrapUnit::setWeak(string w){
     weakness=w;
+}
+void CrapUnit::takeDmg(int d){
+    cout<<"You hit them for "<<d<<" damage!"<<endl;
+    health-=d;
+    if(health<0) health=0;
 }

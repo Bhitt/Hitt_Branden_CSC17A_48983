@@ -21,6 +21,7 @@ class CrapUnit : public EnemyUnit{
        void setWeak(string);                    //Mutator
        string getType(){ return type;}          //Accessor (in-line)
        string getWeak(){ return weakness;}      //Accessor (in-line)
+       void takeDmg(int);                       //take damage function
 };
 
 #endif	/* CRAPUNIT_H */

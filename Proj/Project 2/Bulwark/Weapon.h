@@ -14,16 +14,17 @@ using namespace std;
 class Weapon{
     private:
         string wName;
-        int wBonus;
+        string wBonus;
         string wType;
     public:
         Weapon();                       //Default Constructor
-        Weapon(string,int,string);      //Constructor
+        Weapon(int);                    //Constructor
+        Weapon(string,string,string);   //Constructor
         void setWNam(string);           //Mutator
-        void setWBon(int);              //Mutator
+        void setWBon(string);           //Mutator
         void setWTyp(string);           //Mutator
         string getWNam(){return wName;} //Accessor (in-line) 
-        int getWBon(){return wBonus;}   //Accessor (in-line)
+        string getWBon(){return wBonus;}//Accessor (in-line)
         string getWTyp(){return wType;} //Accessor (in-line)
 };
 
