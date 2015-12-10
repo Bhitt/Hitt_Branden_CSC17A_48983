@@ -18,6 +18,8 @@ using namespace std;
 #include "CrapUnit.h"//crap unit library
 #include "CrapUnitElite.h"//crap unit elite library
 #include "ModerateUnit.h"//moderate unit library
+#include "ModerateUnitElite.h"//moderate unit elite library
+#include "BossUnit.h"//moderate unit library
 //Global Constants
 
 //Function Prototypes
@@ -158,7 +160,7 @@ bool duelEn(Player &user){
         cout<<"You get a free hit."<<endl;
         //user hits first
         hitCh=rand()%10+1;
-        if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+        if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
         if(hitCh<=2) cout<<"You missed your attack."<<endl;
         else enemy.takeDmg(user.getDps());
         pauseG();
@@ -177,7 +179,7 @@ bool duelEn(Player &user){
         if((enemy.getHlth()!=0) && (user.getHel()!=0)){
             userCho=pickMov(user);
             hitCh=rand()%10+1;
-            if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+            if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
             if(userCho==1){
                if(hitCh<=2) cout<<"You weapon has missed. No damage done."<<endl;
                else{
@@ -240,7 +242,7 @@ bool duelEEn(Player &user){
             else {
                 user.takeDam(enemy.getDps());
                 if(enemy.getBon()=="LifeSteal"){
-                    cout<<"The enemy stole life with his attack."<<endl;
+                    cout<<"(Lifesteal) The enemy stole life with his attack."<<endl;
                     enemy.setHlth((enemy.getHlth())+enemy.getDps());
                 }
             }
@@ -297,7 +299,7 @@ bool duelMEn(Player &user){
         cout<<"You get a free hit."<<endl;
         //user hits first
         hitCh=rand()%10+1;
-        if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+        if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
         if(hitCh<=2) cout<<"You missed your attack."<<endl;
         else enemy.takeDmg(user.getDps());
         pauseG();
@@ -316,7 +318,7 @@ bool duelMEn(Player &user){
         if((enemy.getHlth()!=0) && (user.getHel()!=0)){
             userCho=pickMov(user);
             hitCh=rand()%10+1;
-            if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+            if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
             if(userCho==1){
                if(hitCh<=2) cout<<"You weapon has missed. No damage done."<<endl;
                else{
@@ -352,13 +354,191 @@ bool duelMEn(Player &user){
 //  duel moderate elite enemy    //
 //*******************************//
 bool duelMEE(Player &user){
-    
+    //declare variables
+    short hitCh=0, userCho=0;
+    //create enemy
+    ModerateUnitElite enemy;
+    //introduce enemy
+    cout<<"Before you stands an enemy "<<enemy.getName()<<endl;
+    //find who hits first
+    if(user.getWepn().getWBon()=="First Strike"){
+        cout<<"You get a free attack"<<endl;
+        //user hits first
+        hitCh=rand()%10+1;
+        if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+        if(enemy.getBon()=="Dodge Chance") hitCh-=1;
+        if(hitCh<=4) cout<<"You missed your attack."<<endl;
+        else enemy.takeDmg(user.getDps());
+        pauseG();
+    }
+    do{
+        //enemy attacks player
+        if((enemy.getHlth()!=0) && (user.getHel()!=0)){
+            hitCh=rand()%10+1;
+            if(enemy.getWeak()==user.getArch()) hitCh-=1;
+            if(user.getWepn().getWBon()=="Dodge Chance") hitCh-=2;
+            if(hitCh<=3) cout<<"The enemy missed."<<endl;
+            else {
+                user.takeDam(enemy.getDps());
+                if(enemy.getBon()=="Rupture"){
+                    cout<<"(Rupture) The enemy has left a permanent wound."<<endl;
+                    cout<<"         -20 to your maximum health"<<endl;
+                    user.setMaxH((user.getMaxH())-20);
+                    if(user.getMaxH()>user.getHel()) user.setHel(user.getMaxH());
+                }
+            }
+            cout<<"********************"<<endl;
+        }
+        //player attacks enemy
+        if((enemy.getHlth()!=0) && (user.getHel()!=0)){
+            userCho=pickMov(user);
+            hitCh=rand()%10+1;
+            if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
+            if(enemy.getBon()=="Dodge Chance") hitCh-=1;
+            if(userCho==1){
+               if(hitCh<=4) cout<<"You weapon has missed. No damage done."<<endl;
+               else{
+                   enemy.takeDmg(user.getDps());
+                   if(user.getWepn().getWBon()=="LifeSteal"){
+                       user.addHel(user.getDps());
+                   }
+               }
+            }else if(userCho==2){
+               user.healS(); 
+            }else if(userCho==3){
+               enemy.setHlth(user.useSpec(enemy.getHlth())); 
+            }else{
+               user.setHel(0); 
+            }
+            pauseG();
+        }
+    }while((user.getHel()>0) && (enemy.getHlth()>0)); //continue until one dead
+    //check for user death
+    if(user.getHel()==0){
+        cout<<"You have died"<<endl;
+        pauseG();
+        return false;
+    }
+    else{
+        cout<<"You have slain the enemy"<<endl;
+        pauseG();
+        return true;
+    }
 }
 //*******************************//
 //         duel boss             //
 //*******************************//
 bool duelBos(Player &user){
-    cout<<"Boss fight here"<<endl;
+    //declare variables
+    short hitCh=0, userCho=0, spez=0, fear=0,hyde=0,devour=0;
+    int temp=0;
+    //create enemy
+    BossUnit enemy;
+    //introduce enemy
+    cout<<"Before you stands the abhorrent "<<enemy.getName()<<endl;
+    //check for special
+    if(enemy.getBon()=="Toxic"){
+        cout<<"(Toxic) A vile cloud has lowered your resilience."<<endl;
+        cout<<"       -100 to your maximum health."<<endl;
+        user.setMaxH((user.getMaxH())-100);
+        if(user.getHel()>user.getMaxH()) user.setHel(user.getMaxH());
+    }
+    //find who hits first
+    if(enemy.getSpec()=="Trample"&& user.getHel()>100){
+        cout<<"(Trample) Hoofs storm across your person."<<endl;
+        cout<<"         -100 health"<<endl;
+        user.takeDam(100);
+    }
+    if(user.getWepn().getWBon()=="First Strike"){
+        cout<<"You get a free hit."<<endl;
+        //user hits first
+        hitCh=rand()%10+1;
+        if(hitCh<=3) cout<<"You missed your attack."<<endl;
+        else enemy.takeDmg(user.getDps()),hyde++;
+        pauseG();
+    }
+    do{
+        //enemy attacks player
+        if((enemy.getHlth()!=0) && (user.getHel()!=0)){
+            hitCh=rand()%10+1;
+            if(user.getWepn().getWBon()=="Dodge Chance") hitCh-=2;
+            if(hitCh<=1) cout<<"The enemy missed."<<endl;
+            else {
+                user.takeDam(enemy.getDps());
+                if(enemy.getBon()=="LifeSteal") enemy.setHlth((enemy.getHlth())+enemy.getDps());
+                cout<<"(LifeSteal) "<<enemy.getName()<<" has stolen life equal to the damage dealt"<<endl;
+            }
+            cout<<"********************"<<endl;
+        }
+        devour=rand()%4+1;
+        if(devour==1 && enemy.getSpec()=="Devour"){
+            cout<<"(Devour) The Great Old One Cthulhu has devoured you whole."<<endl;
+            user.setHel(0);
+        }
+        //player attacks enemy
+        if((enemy.getHlth()!=0) && (user.getHel()!=0)){
+            userCho=pickMov(user);
+            hitCh=rand()%10+1;
+            if(enemy.getBon()=="Fear") fear=rand()%3+1;
+            if(fear==1){
+                hitCh=1;
+                cout<<"(Fear) "<<enemy.getName()<<" has struck you with fright."<<endl;
+            }
+            if(userCho==1){
+               if(hitCh<=3) cout<<"You weapon has missed. No damage done."<<endl;
+               if(hitCh==1&& enemy.getBon()=="The Call"){
+                   cout<<"(The Call) You lose focus and harm yourself."<<endl;
+                   cout<<"You take "<<user.getDps()<<" damage."<<endl;
+                   user.takeDam(user.getDps());
+               }
+               else{
+                   enemy.takeDmg(user.getDps());
+                   hyde++;
+                   if(user.getWepn().getWBon()=="LifeSteal"){
+                       user.addHel(user.getDps());
+                   }
+                   if(enemy.getBon()=="Conduit"){
+                       cout<<"(Conduit) Electricity forks off the creature and onto you"<<endl;
+                       cout<<" 20 Damage to your health."<<endl;
+                       user.takeDam(20);
+                   }
+               }
+            }else if(userCho==2){
+               user.healS(); 
+            }else if(userCho==3){
+               enemy.setHlth(user.useSpec(enemy.getHlth())); 
+            }else{
+               user.setHel(0); 
+            }
+            pauseG();
+            
+        }
+        if((spez==0)&&(enemy.getHlth()<=100)&&(enemy.getSpec()=="LifeSwap")){
+            cout<<"(LifeSwap) Your life totals have been swapped"<<endl;
+            temp=enemy.getHlth();
+            enemy.setHlth(user.getHel());
+            user.setHel(temp);
+            spez++;
+        }
+        if((spez==0)&&(hyde>=5)&&(enemy.getSpec()=="Anger")){
+            cout<<"(Anger) You have driven "<<enemy.getName()<<" to desperation."<<endl;
+            cout<<"After swallowing a nefarious concoction, he has embraced his"<<endl;
+            cout<<"inner Mr. Hyde."<<endl;
+            enemy.setDps(200);
+            spez++;
+        }
+    }while((user.getHel()>0) && (enemy.getHlth()>0)); //continue until one dead
+    //check for user death
+    if(user.getHel()==0){
+        cout<<"You have died"<<endl;
+        pauseG();
+        return false;
+    }
+    else{
+        cout<<"You have slain the enemy"<<endl;
+        pauseG();
+        return true;
+    }
 }
 //*******************************//
 //         stat bonus            //

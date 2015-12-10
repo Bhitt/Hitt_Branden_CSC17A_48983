@@ -21,7 +21,7 @@ Player::Player(string n,int pick){
     if(pick==1){
         name=n;
         health=500;
-        dps=50;
+        dps=70;
         arche="Ranger";
         weapon=Weapon(1);
         special="Headshot";
@@ -30,7 +30,7 @@ Player::Player(string n,int pick){
     }else if(pick==2){
         name=n;
         health=450;
-        dps=70;
+        dps=90;
         arche="Warlock";
         weapon=Weapon(2);
         special="Transfusion";
@@ -39,7 +39,7 @@ Player::Player(string n,int pick){
     }else if(pick==3){
         name=n;
         health=550;
-        dps=30;
+        dps=50;
         arche="Paladin";
         weapon=Weapon(3);
         special="Fortify";
@@ -48,7 +48,7 @@ Player::Player(string n,int pick){
     }else{
         name=n;
         health=400;
-        dps=80;
+        dps=100;
         arche="Beserker";
         weapon=Weapon(4);
         special="Ragnorak";
