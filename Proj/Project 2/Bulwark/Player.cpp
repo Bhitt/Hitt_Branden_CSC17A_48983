@@ -20,7 +20,7 @@ Player::Player(){
 Player::Player(string n,int pick){
     if(pick==1){
         name=n;
-        health=300;
+        health=500;
         dps=50;
         arche="Ranger";
         weapon=Weapon(1);
@@ -29,7 +29,7 @@ Player::Player(string n,int pick){
         selfH=60;
     }else if(pick==2){
         name=n;
-        health=250;
+        health=450;
         dps=70;
         arche="Warlock";
         weapon=Weapon(2);
@@ -38,7 +38,7 @@ Player::Player(string n,int pick){
         selfH=50;
     }else if(pick==3){
         name=n;
-        health=350;
+        health=550;
         dps=30;
         arche="Paladin";
         weapon=Weapon(3);
@@ -47,8 +47,8 @@ Player::Player(string n,int pick){
         selfH=70;
     }else{
         name=n;
-        health=200;
-        dps=70;
+        health=400;
+        dps=80;
         arche="Beserker";
         weapon=Weapon(4);
         special="Ragnorak";
@@ -104,10 +104,12 @@ void Player::takeDam(int d){
 }
 void Player::addHel(int add){
     health+=add;
-    if(health==maxHlth) health=maxHlth;
+    if(health>maxHlth) health=maxHlth;
+    cout<<"You have been healed for "<<add<<endl;
 }
 void Player::addMaxH(int add){
     maxHlth+=add;
+    cout<<"You have gained +"<<add<<" max health."<<endl;
 }
 int Player::useSpec(int eneHlth){
     if(this->special=="Headshot"){
@@ -123,7 +125,7 @@ int Player::useSpec(int eneHlth){
         if(health>maxHlth) health=maxHlth;
         cout<<"You have stolen "<<steal<<" health from the enemy"<<endl;
     }else if(this->special=="Fortify"){
-        int placeH=maxHlth/30;
+        int placeH=maxHlth/3;
         health+=placeH;
         maxHlth+=placeH;
         if(health>maxHlth) health=maxHlth;

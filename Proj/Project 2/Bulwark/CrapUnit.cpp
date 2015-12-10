@@ -40,7 +40,7 @@ CrapUnit::CrapUnit(){
         name="Cultist";
         health=50;
         dps=120;
-        type="Vampire";
+        type="Cthulhu Spawn";
         weakness="Any";
     }
 }
@@ -56,9 +56,4 @@ void CrapUnit::setType(string t){
 }
 void CrapUnit::setWeak(string w){
     weakness=w;
-}
-void CrapUnit::takeDmg(int d){
-    cout<<"You hit them for "<<d<<" damage!"<<endl;
-    health-=d;
-    if(health<0) health=0;
 }

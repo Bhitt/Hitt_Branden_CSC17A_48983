@@ -24,6 +24,7 @@ class EnemyUnit{
         int getHlth(){return health;}   //Accessor (in-line)
         void setDps(int);               //Mutator
         int getDps();                   //Accessor
+        void takeDmg(int);              //take damage function
 };
 
 #endif	/* ENEMYUNIT_H */

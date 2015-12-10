@@ -7,7 +7,8 @@
 
 #include "EnemyUnit.h"
 #include <string>
-
+#include <iostream>
+using namespace std;
 EnemyUnit::EnemyUnit(string n, int h, int d){
     name=n;
     health=h;
@@ -28,4 +29,9 @@ void EnemyUnit::setDps(int d){
 }
 int EnemyUnit::getDps(){
     return dps;
+}
+void EnemyUnit::takeDmg(int d){
+    cout<<"You hit them for "<<d<<" damage!"<<endl;
+    health-=d;
+    if(health<0) health=0;
 }
