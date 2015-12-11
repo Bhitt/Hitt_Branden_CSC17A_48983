@@ -181,7 +181,7 @@ bool duelEn(Player &user){
             hitCh=rand()%10+1;
             if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
             if(userCho==1){
-               if(hitCh<=2) cout<<"You weapon has missed. No damage done."<<endl;
+               if(hitCh<=2) cout<<"Your weapon has missed. No damage done."<<endl;
                else{
                    enemy.takeDmg(user.getDps());
                    if(user.getWepn().getWBon()=="LifeSteal"){

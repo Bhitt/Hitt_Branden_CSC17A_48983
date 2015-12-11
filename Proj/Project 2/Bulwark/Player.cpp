@@ -51,7 +51,7 @@ Player::Player(string n,int pick){
         dps=100;
         arche="Beserker";
         weapon=Weapon(4);
-        special="Ragnorak";
+        special="Ragnarok";
         specC=5;
         selfH=40;
     }
