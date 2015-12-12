@@ -9,12 +9,13 @@ using namespace std;
 
 #ifndef ENEMYUNIT_H
 #define	ENEMYUNIT_H
-
-class EnemyUnit{
+#include "Unit.h"
+class EnemyUnit: public Unit{
     protected:
         string name;
         int health;
         int dps;
+        static string allegiance;
     public:
         EnemyUnit(){name="Empty",health=0,dps=0;} //Default Constructor (in-line)
         EnemyUnit(string,int,int);      //Constructor
@@ -25,6 +26,7 @@ class EnemyUnit{
         void setDps(int);               //Mutator
         int getDps();                   //Accessor
         void takeDmg(int);              //take damage function
+        int getHate(){ return 0;}
 };
 
 #endif	/* ENEMYUNIT_H */

@@ -1,0 +1,7 @@
+Name            : Sheogorath the Mad
+Maximum Health  : 410
+Damage          : 110
+Archetype       : Warlock
+Weapon          : Staff
+Special         : Transfusion
+Waves Completed : 0

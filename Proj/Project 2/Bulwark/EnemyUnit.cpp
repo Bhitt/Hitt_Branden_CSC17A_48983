@@ -9,6 +9,9 @@
 #include <string>
 #include <iostream>
 using namespace std;
+
+string EnemyUnit::allegiance="The Dark Lord Cthulhu";
+
 EnemyUnit::EnemyUnit(string n, int h, int d){
     name=n;
     health=h;

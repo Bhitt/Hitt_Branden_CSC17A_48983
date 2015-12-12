@@ -1,0 +1,7 @@
+Name            : Olaf the Merciless
+Maximum Health  : 450
+Damage          : 110
+Archetype       : Beserker
+Weapon          : War Axe
+Special         : Ragnarok
+Waves Completed : 2

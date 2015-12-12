@@ -10,7 +10,7 @@
 #include <string>//string library
 #include <cstdlib>//rand
 #include <fstream>//file i/o
-#include <cstring>
+#include <cstring>//strcpy
 using namespace std;
 
 //User Libraries
@@ -22,8 +22,9 @@ using namespace std;
 #include "ModerateUnit.h"//moderate unit library
 #include "ModerateUnitElite.h"//moderate unit elite library
 #include "BossUnit.h"//boss unit library
-#include "SimpleVector.h"
+#include "SimpleVector.h"//my vector library/template
 #include "PlayerData.h"//vector library
+#include "Unit.h"//unit abstract class
 //Global Constants
 
 //Function Prototypes
@@ -37,26 +38,33 @@ bool duelBos(Player &);     //duel boss
 void statBon(Player &);     //stat bonus for player
 void pauseG();              //pause the game
 void writeRec(PlayerData ,string);  //write records to a file
-PlayerData readRec(string); //read records from a file
-PlayerData retPD(Player); //returns a structure from data
+void writeHi(PlayerData);   //write record to highscore file
+void readHi();              //read highscores to player
+PlayerData retPD(Player);   //returns a structure from data
+void vecFun();              //vector function
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //declare variables
     string cName;       //character name
-    short archPic;      //archetype choice
+    short archPic=5,hi=0;//archetype choice
     bool rep=false;     //repeat
     srand(static_cast<unsigned int>(time(0))); //set random seed
     //greet the user
-    
+    cout<<"*****************************************************************"<<endl;
+    cout<<"| Quickly soldier, we need your help to defend the gates!       |"<<endl;
+    cout<<"| Cthulhu has brought a heinous army to destroy all of mankind! |"<<endl;
+    cout<<"| Fight as long as you can and leave none standing!             |"<<endl;
+    cout<<"*****************************************************************"<<endl;
     //set up player file
-    cout<<"Before we begin, let's create your character."<<endl;
-    cout<<"What would you like your avatar's name to be? (Ex. Alexander the Great)"<<endl;
+    cout<<"Before you go, what was your name? (Ex. Alexander the Great)"<<endl;
     getline(cin,cName);
-    cout<<"Next, we must choose an archetype."<<endl;
+    cout<<"Finally, what is your archetype."<<endl;
     do{
         rep=false;
-        cout<<"Enter in 1 for Ranger, 2 for Warlock, 3 for a Paladin,"<<endl;
-        cout<<"     or 4 for Beserker."<<endl;
+        cout<<"Enter in 1 for Ranger: "<<endl;
+        cout<<"         2 for Warlock:"<<endl;
+        cout<<"         3 for Paladin:"<<endl;
+        cout<<"         4 for Beserker:"<<endl;
         cin>>archPic;
         if(archPic>4||archPic<1){
             cout<<"Invalid Entry"<<endl;
@@ -67,26 +75,39 @@ int main(int argc, char** argv) {
     //create player object
     Player user(cName,archPic);
     //start waves
+    cout<<"God speed, "<<user.getArch()<<" "<<user.getName()<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
     newWave(user);
     //set player data
     PlayerData records;
     records=retPD(user);
-    cName+=".dat";
+    //Output Stats to Player
+    cout<<endl;
+    cout<<"Character Name : "<<user.getName()<<endl;
+    cout<<"Archetype      : "<<user.getArch()<<endl;
+    cout<<"Health         : "<<user.getHel()<<endl;
+    cout<<"Damage         : "<<user.getDps()<<endl;
+    cout<<"Maximum Health : "<<user.getMaxH()<<endl;
+    cout<<"Weapon Name    : "<<user.getWepn().getWNam()<<endl;
+    cout<<"Weapon Bonus   : "<<user.getWepn().getWBon()<<endl;
+    cout<<"Waves Completed: "<<user.getWave()<<endl;
+    cout<<endl;
+    cout<<endl;
     //write out data to txt
     writeRec(records,cName);
-    //read in data
-    PlayerData taco;
-    taco=readRec(cName);
-    //cout<<taco.name<<endl;
-    //Output Stats to Player
-    cout<<"Char name: "<<user.getName()<<endl;
-    cout<<"char arch: "<<user.getArch()<<endl;
-    cout<<"helth    : "<<user.getHel()<<endl;
-    cout<<"dps      : "<<user.getDps()<<endl;
-    cout<<"maxhlth  : "<<user.getMaxH()<<endl;
-    cout<<"wep name : "<<user.getWepn().getWNam()<<endl;
-    cout<<"wep type : "<<user.getWepn().getWTyp()<<endl;
-    cout<<"waves    : "<<user.getWave()<<endl;
+    //write out data to dat
+    writeHi(records);
+    //read in data for output
+    do{
+        cout<<"Would you like to view the High Scores?"<<endl;
+        cout<<"Enter in 1 for yes or 2 for no:"<<endl;
+        cin>>hi;
+    }while(hi<1 || hi>2);
+    if(hi==1) readHi();
+    //vector fun
+    vecFun();
     //Exit Stage Right
     return 0;
 }
@@ -95,9 +116,9 @@ int main(int argc, char** argv) {
 //*******************************//
 void pauseG(){
     string trash;
-    cout<<"********************"<<endl;
-    cout<<"Enter to Continue..."<<endl;
-    cout<<"********************"<<endl;
+    cout<<"******************************"<<endl;
+    cout<<"*Enter to Continue...        *"<<endl;
+    cout<<"******************************"<<endl;
     cin.ignore();
     getline(cin,trash);
 }
@@ -109,34 +130,41 @@ void newWave(Player &user){
     unsigned short wCount=0;    //wave count
     bool cont=true;             //continue playing
     do{
+        cout<<"Wave : "<<wCount+1<<endl;
         //enemy1
         if(cont) cont=duelEn(user);
-        if(cont) user.addHel(50);
+        if(cont) cout<<"(Kill Reward) ", user.addHel(50);
         //enemy2
         if(cont) cont=duelEn(user);
-        if(cont) user.addHel(50);
+        if(cont) cout<<"(Kill Reward) ", user.addHel(50);
         //elite enemy
         if(cont) cont=duelEEn(user);
         if(cont){
+            cout<<"(Kill Reward) ";
             user.addHel(100);
             statBon(user);
         }
         //enemy 4
         if(cont) cont=duelMEn(user);
-        if(cont) user.addHel(50);
+        if(cont) cout<<"(Kill Reward) ", user.addHel(50);
         //enemy 5
         if(cont) cont=duelMEn(user);
-        if(cont) user.addHel(50);
+        if(cont) cout<<"(Kill Reward) ", user.addHel(50);
         //enemy 6
         if(cont) cont=duelMEE(user);
         if(cont){
+            cout<<"(Kill Reward) ",
             user.addHel(100);
             statBon(user);
         }
         //boss
+        if(cont) cout<<"PREPARE YOURSELF, A BOSS APPROACHES!!!"<<endl;
+        if(cont) pauseG();
         if(cont) cont=duelBos(user);
         if(cont){
+            cout<<"(Kill Reward) ";
             user.addMaxH(25);
+            cout<<"(Kill Reward) ";
             user.addHel(100);
             statBon(user);
         }
@@ -153,7 +181,7 @@ short pickMov(Player &user){
     do{
         cout<<"Your Maximum Health: "<<user.getMaxH()<<endl;
         cout<<"Your Current Health: "<<user.getHel()<<endl;
-        cout<<"1.Attack      : "<<user.getDps()<<" (damage)"<<endl;
+        cout<<"1.Attack      : "<<user.getDps()<<" (damage) ("<<user.getWepn().getWBon()<<")"<<endl;
         cout<<"2.Self-Heal   : "<<user.getSlfH()<<" (health)"<<endl;
         cout<<"3.Special     : "<<user.getSpec()<<" ("<<user.getSpC()<<" left)"<<endl;
         cout<<"4.Surrender   : (The coward's way out)"<<endl;
@@ -174,7 +202,7 @@ bool duelEn(Player &user){
     cout<<"Before you stands an enemy "<<enemy.getName()<<endl;
     //find who hits first
     if(user.getWepn().getWBon()=="First Strike"){
-        cout<<"You get a free hit."<<endl;
+        cout<<"(First Strike) You get a free hit."<<endl;
         //user hits first
         hitCh=rand()%10+1;
         if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
@@ -240,7 +268,7 @@ bool duelEEn(Player &user){
     cout<<"Before you stands an enemy "<<enemy.getName()<<endl;
     //find who hits first
     if(user.getWepn().getWBon()=="First Strike"){
-        cout<<"You get a free attack"<<endl;
+        cout<<"(First Strike) You get a free attack"<<endl;
         //user hits first
         hitCh=rand()%10+1;
         if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
@@ -313,7 +341,7 @@ bool duelMEn(Player &user){
     cout<<"Before you stands an enemy "<<enemy.getName()<<endl;
     //find who hits first
     if(user.getWepn().getWBon()=="First Strike"){
-        cout<<"You get a free hit."<<endl;
+        cout<<"(First Strike) You get a free hit."<<endl;
         //user hits first
         hitCh=rand()%10+1;
         if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=2;
@@ -379,7 +407,7 @@ bool duelMEE(Player &user){
     cout<<"Before you stands an enemy "<<enemy.getName()<<endl;
     //find who hits first
     if(user.getWepn().getWBon()=="First Strike"){
-        cout<<"You get a free attack"<<endl;
+        cout<<"(First Strike) You get a free attack"<<endl;
         //user hits first
         hitCh=rand()%10+1;
         if(enemy.getWeak()==user.getArch()||enemy.getWeak()=="Any") hitCh+=1;
@@ -467,7 +495,7 @@ bool duelBos(Player &user){
         user.takeDam(100);
     }
     if(user.getWepn().getWBon()=="First Strike"){
-        cout<<"You get a free hit."<<endl;
+        cout<<"(First Strike) You get a free hit."<<endl;
         //user hits first
         hitCh=rand()%10+1;
         if(hitCh<=3) cout<<"You missed your attack."<<endl;
@@ -502,12 +530,12 @@ bool duelBos(Player &user){
                 cout<<"(Fear) "<<enemy.getName()<<" has struck you with fright."<<endl;
             }
             if(userCho==1){
-               if(hitCh<=3) cout<<"You weapon has missed. No damage done."<<endl;
                if(hitCh==1&& enemy.getBon()=="The Call"){
                    cout<<"(The Call) You lose focus and harm yourself."<<endl;
                    cout<<"You take "<<user.getDps()<<" damage."<<endl;
                    user.takeDam(user.getDps());
                }
+               else if(hitCh<=3) cout<<"You weapon has missed. No damage done."<<endl;
                else{
                    enemy.takeDmg(user.getDps());
                    hyde++;
@@ -616,28 +644,70 @@ PlayerData retPD(Player user){
 //*******************************//
 //         write Record          //
 //*******************************//
-void writeRec(PlayerData records, string cName){
+void writeRec(PlayerData r, string cName){
     //open file
     fstream fStuff;
-    fStuff.open(cName.c_str(), ios::out | ios::binary);
+    cName+=".txt";
+    fStuff.open(cName.c_str(), ios::out);
     //write structure to file
-    fStuff.write(reinterpret_cast<char *>(&records),sizeof(records));
+    //fStuff.write(reinterpret_cast<char *>(&records),sizeof(records));
+    fStuff<<"Name            : "<<r.name<<endl;
+    fStuff<<"Maximum Health  : "<<r.maxHlth<<endl;
+    fStuff<<"Damage          : "<<r.dps<<endl;
+    fStuff<<"Archetype       : "<<r.arch<<endl;
+    fStuff<<"Weapon          : "<<r.weapon<<endl;
+    fStuff<<"Special         : "<<r.special<<endl;
+    fStuff<<"Waves Completed : "<<r.waveC<<endl;
     //close file
     fStuff.close(); 
 }
 //*******************************//
+//    file i/o highscore         //
+//*******************************//
+void writeHi(PlayerData r){
+    //create structure
+    PlayerData temp;
+    //open file
+    fstream fout;
+    fout.open("Highscores.dat", ios::out | ios::binary | ios::app);
+    //write file from structure
+    fout.write(reinterpret_cast<char *>(&r),sizeof(r));
+    //close file
+    fout.close();
+}
+//*******************************//
 //        read Record            //
 //*******************************//
-PlayerData readRec(string s){
+void readHi(){
     //create structure
     PlayerData temp;
     //open file
     fstream fin;
-    fin.open(s.c_str(), ios::in | ios::binary);
-    //read file into structure
-    fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
+    fin.open("Highscores.dat", ios::in | ios::binary);
+    while(fin){
+       //read file into structure
+       fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
+       //output structure
+       cout<<"Name            : "<<temp.name<<endl;
+       cout<<"Maximum Health  : "<<temp.maxHlth<<endl;
+       cout<<"Damage          : "<<temp.dps<<endl;
+       cout<<"Archetype       : "<<temp.arch<<endl;
+       cout<<"Weapon          : "<<temp.weapon<<endl;
+       cout<<"Special         : "<<temp.special<<endl;
+       cout<<"Waves Completed : "<<temp.waveC<<endl;
+    }
+    
     //close file
     fin.close();
-    //return struct
-    return temp;
+}
+//*******************************//
+//        vector fun             //
+//*******************************//
+void vecFun(){
+    //create an array of vectors from template
+    SimpleVector<int> stuff(10);
+    stuff.pushEle(5);
+    /*for(int i=0;i<11;i++){
+        cout<<stuff[i]<<endl;
+    }*/
 }

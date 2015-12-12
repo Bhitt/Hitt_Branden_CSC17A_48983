@@ -1,0 +1,7 @@
+Name            : Boromir
+Maximum Health  : 2114
+Damage          : 60
+Archetype       : Paladin
+Weapon          : Sword
+Special         : Fortify
+Waves Completed : 0

@@ -16,17 +16,20 @@ Weapon::Weapon(int pick){
     if(pick==1){
         wName="Long Bow";
         wType="Ranged";
+        wBonus="Dodge Chance";
     }else if(pick==2){
         wName="Staff";
         wType="Ranged";
+        wBonus="LifeSteal";
     }else if(pick==3){
         wName="Sword";
         wType="Melee";
+        wBonus="First Strike";
     }else{
         wName="War Axe";
         wType="Melee";
+        wBonus="LifeSteal";
     }
-    wBonus="none";
 }
 Weapon::Weapon(string na, string bo, string ty){
     wName=na;

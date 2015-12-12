@@ -14,6 +14,7 @@
       <itemPath>Player.h</itemPath>
       <itemPath>PlayerData.h</itemPath>
       <itemPath>SimpleVector.h</itemPath>
+      <itemPath>Unit.h</itemPath>
       <itemPath>Weapon.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -89,6 +90,8 @@
       </item>
       <item path="SimpleVector.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Unit.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Weapon.h" ex="false" tool="3" flavor2="0">
@@ -149,6 +152,8 @@
       <item path="PlayerData.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SimpleVector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Unit.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
       </item>
