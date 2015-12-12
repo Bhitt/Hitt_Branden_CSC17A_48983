@@ -8,9 +8,12 @@
       <itemPath>CrapUnit.h</itemPath>
       <itemPath>CrapUnitElite.h</itemPath>
       <itemPath>EnemyUnit.h</itemPath>
+      <itemPath>Greetings.h</itemPath>
       <itemPath>ModerateUnit.h</itemPath>
       <itemPath>ModerateUnitElite.h</itemPath>
       <itemPath>Player.h</itemPath>
+      <itemPath>PlayerData.h</itemPath>
+      <itemPath>SimpleVector.h</itemPath>
       <itemPath>Weapon.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -68,6 +71,8 @@
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Greetings.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ModerateUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ModerateUnit.h" ex="false" tool="3" flavor2="0">
@@ -79,6 +84,10 @@
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PlayerData.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimpleVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -123,6 +132,8 @@
       </item>
       <item path="EnemyUnit.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Greetings.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ModerateUnit.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ModerateUnit.h" ex="false" tool="3" flavor2="0">
@@ -134,6 +145,10 @@
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PlayerData.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SimpleVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Weapon.cpp" ex="false" tool="1" flavor2="0">
       </item>

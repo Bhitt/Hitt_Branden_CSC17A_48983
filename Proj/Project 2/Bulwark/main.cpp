@@ -9,6 +9,8 @@
 #include <iostream>//I/O standard
 #include <string>//string library
 #include <cstdlib>//rand
+#include <fstream>//file i/o
+#include <cstring>
 using namespace std;
 
 //User Libraries
@@ -19,7 +21,9 @@ using namespace std;
 #include "CrapUnitElite.h"//crap unit elite library
 #include "ModerateUnit.h"//moderate unit library
 #include "ModerateUnitElite.h"//moderate unit elite library
-#include "BossUnit.h"//moderate unit library
+#include "BossUnit.h"//boss unit library
+#include "SimpleVector.h"
+#include "PlayerData.h"//vector library
 //Global Constants
 
 //Function Prototypes
@@ -32,6 +36,9 @@ bool duelMEE(Player &);     //duel moderate elite enemy
 bool duelBos(Player &);     //duel boss
 void statBon(Player &);     //stat bonus for player
 void pauseG();              //pause the game
+void writeRec(PlayerData ,string);  //write records to a file
+PlayerData readRec(string); //read records from a file
+PlayerData retPD(Player); //returns a structure from data
 //Execution Begins Here!
 int main(int argc, char** argv) {
     //declare variables
@@ -61,7 +68,17 @@ int main(int argc, char** argv) {
     Player user(cName,archPic);
     //start waves
     newWave(user);
-    //Output Stats to File
+    //set player data
+    PlayerData records;
+    records=retPD(user);
+    cName+=".dat";
+    //write out data to txt
+    writeRec(records,cName);
+    //read in data
+    PlayerData taco;
+    taco=readRec(cName);
+    //cout<<taco.name<<endl;
+    //Output Stats to Player
     cout<<"Char name: "<<user.getName()<<endl;
     cout<<"char arch: "<<user.getArch()<<endl;
     cout<<"helth    : "<<user.getHel()<<endl;
@@ -579,4 +596,48 @@ void statBon(Player &user){
         cout<<"        current health, and +20 to your damage."<<endl;
     }
     pauseG();
+}
+//*******************************//
+//  return PlayerData            //
+//*******************************//
+PlayerData retPD(Player user){
+    //declare struct
+    PlayerData temp;
+    strcpy(temp.name,user.getName().c_str());
+    temp.maxHlth=user.getMaxH();
+    temp.dps=user.getDps();
+    strcpy(temp.arch,user.getArch().c_str());
+    strcpy(temp.weapon,user.getWepn().getWNam().c_str());
+    strcpy(temp.special,user.getSpec().c_str());
+    temp.waveC=user.getWave();
+    //return struct
+    return temp;
+}
+//*******************************//
+//         write Record          //
+//*******************************//
+void writeRec(PlayerData records, string cName){
+    //open file
+    fstream fStuff;
+    fStuff.open(cName.c_str(), ios::out | ios::binary);
+    //write structure to file
+    fStuff.write(reinterpret_cast<char *>(&records),sizeof(records));
+    //close file
+    fStuff.close(); 
+}
+//*******************************//
+//        read Record            //
+//*******************************//
+PlayerData readRec(string s){
+    //create structure
+    PlayerData temp;
+    //open file
+    fstream fin;
+    fin.open(s.c_str(), ios::in | ios::binary);
+    //read file into structure
+    fin.read(reinterpret_cast<char *>(&temp),sizeof(temp));
+    //close file
+    fin.close();
+    //return struct
+    return temp;
 }
