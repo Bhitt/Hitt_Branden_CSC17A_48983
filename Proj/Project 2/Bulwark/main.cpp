@@ -119,7 +119,7 @@ void pauseG(){
     cout<<"******************************"<<endl;
     cout<<"*Enter to Continue...        *"<<endl;
     cout<<"******************************"<<endl;
-    cin.ignore();
+    cin.ignore();//prompt for enter key
     getline(cin,trash);
 }
 //*******************************//
@@ -177,7 +177,7 @@ void newWave(Player &user){
 //        pick move              //
 //*******************************//
 short pickMov(Player &user){
-    short cho;
+    short cho;//prompt for choice
     do{
         cout<<"Your Maximum Health: "<<user.getMaxH()<<endl;
         cout<<"Your Current Health: "<<user.getHel()<<endl;
@@ -210,7 +210,7 @@ bool duelEn(Player &user){
         else enemy.takeDmg(user.getDps());
         pauseG();
     }
-    do{
+    do{ //loop
         //enemy attacks player
         if((enemy.getHlth()!=0) && (user.getHel()!=0)){
             hitCh=rand()%10+1;
@@ -483,33 +483,33 @@ bool duelBos(Player &user){
     cout<<"Before you stands the abhorrent "<<enemy.getName()<<endl;
     //check for special
     if(enemy.getBon()=="Toxic"){
-        cout<<"(Toxic) A vile cloud has lowered your resilience."<<endl;
+        cout<<"(Toxic) A vile cloud has lowered your resilience."<<endl;//check for bonus
         cout<<"       -100 to your maximum health."<<endl;
         user.setMaxH((user.getMaxH())-100);
         if(user.getHel()>user.getMaxH()) user.setHel(user.getMaxH());
     }
     //find who hits first
     if(enemy.getSpec()=="Trample"&& user.getHel()>100){
-        cout<<"(Trample) Hoofs storm across your person."<<endl;
+        cout<<"(Trample) Hoofs storm across your person."<<endl;//enemy hits first
         cout<<"         -100 health"<<endl;
         user.takeDam(100);
     }
     if(user.getWepn().getWBon()=="First Strike"){
         cout<<"(First Strike) You get a free hit."<<endl;
-        //user hits first
+        //user hits first (or second if the enemy has trample)
         hitCh=rand()%10+1;
-        if(hitCh<=3) cout<<"You missed your attack."<<endl;
-        else enemy.takeDmg(user.getDps()),hyde++;
+        if(hitCh<=3) cout<<"You missed your attack."<<endl;//check for miss
+        else enemy.takeDmg(user.getDps()),hyde++;//deal damage
         pauseG();
     }
     do{
         //enemy attacks player
         if((enemy.getHlth()!=0) && (user.getHel()!=0)){
             hitCh=rand()%10+1;
-            if(user.getWepn().getWBon()=="Dodge Chance") hitCh-=2;
-            if(hitCh<=1) cout<<"The enemy missed."<<endl;
+            if(user.getWepn().getWBon()=="Dodge Chance") hitCh-=2;//check for dodge
+            if(hitCh<=1) cout<<"The enemy missed."<<endl;//check for miss
             else {
-                user.takeDam(enemy.getDps());
+                user.takeDam(enemy.getDps());//deal damage
                 if(enemy.getBon()=="LifeSteal") enemy.setHlth((enemy.getHlth())+enemy.getDps());
                 cout<<"(LifeSteal) "<<enemy.getName()<<" has stolen life equal to the damage dealt"<<endl;
             }
@@ -580,7 +580,7 @@ bool duelBos(Player &user){
         return false;
     }
     else{
-        cout<<"You have slain the enemy"<<endl;
+        cout<<"You have slain the enemy"<<endl;//win prompt
         pauseG();
         return true;
     }
@@ -590,7 +590,7 @@ bool duelBos(Player &user){
 //*******************************//
 void statBon(Player &user){
     short luck;
-    luck=rand()%7+1;
+    luck=rand()%7+1;//random bonus given
     if(luck==1){
         //small health gain
         user.setHel((user.getHel())+20);
@@ -630,7 +630,7 @@ void statBon(Player &user){
 //*******************************//
 PlayerData retPD(Player user){
     //declare struct
-    PlayerData temp;
+    PlayerData temp;//fill struct
     strcpy(temp.name,user.getName().c_str());
     temp.maxHlth=user.getMaxH();
     temp.dps=user.getDps();
@@ -650,7 +650,6 @@ void writeRec(PlayerData r, string cName){
     cName+=".txt";
     fStuff.open(cName.c_str(), ios::out);
     //write structure to file
-    //fStuff.write(reinterpret_cast<char *>(&records),sizeof(records));
     fStuff<<"Name            : "<<r.name<<endl;
     fStuff<<"Maximum Health  : "<<r.maxHlth<<endl;
     fStuff<<"Damage          : "<<r.dps<<endl;
